@@ -1,0 +1,59 @@
+.my_brand {
+  background: #29375B;
+}
+
+.mycss {
+  font-family: "IBM Plex Sans", Sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 10px;
+  background-color: #29375B;
+  border-color: #29375B;
+  border-top-style: solid;
+  border-top-color: #FF6A3D;
+  padding: 20px;
+  position: relative;
+  clear: both;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 8px;
+  color: #fff;
+  transition: background-color 0.50s;
+  font-size: 18px;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.active,
+.mycss:hover {
+  color: white;
+  background-color: #FF6A3D;
+  border-bottom-style: solid;
+  border-bottom-color: #29375B;
+}
+
+
+.mycss_content {
+  border-bottom-style: solid;
+  border-bottom-color: #29375B;
+  margin-bottom: 0;
+  position: relative;
+  -webkit-border-radius: 3px 3px 0 0;
+  -moz-border-radius: 3px 3px 0 0;
+  border-radius: 8px;
+  color: #29375B;
+  transition: background-color 0.80s;
+  padding: 10px;
+  font-size: 16px;
+  font-family: "IBM Plex Sans", Sans-serif;
+  margin-left: 20px;
+}
+
+.mycss_content:hover {
+  color: white;
+  background-color: #FF6A3D;
+  border-bottom-style: solid;
+  border-bottom-color: #29375B;
+  font-family: "IBM Plex Sans", Sans-serif;
+}
