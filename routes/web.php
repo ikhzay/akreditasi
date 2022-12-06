@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\InstrumentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubMenuController;
+use App\Http\Controllers\KriteriaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +32,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/hapus_submenu', [SubMenuController::class, 'hapus_submenu']);
     Route::post('/edit_submenu', [SubMenuController::class, 'edit_submenu']);
 
+    Route::get('/kriteria',[KriteriaController::class,'index']);
+    Route::post('/tambah_kriteria', [KriteriaController::class, 'store']);
+    Route::post('/hapus_kriteria', [KriteriaController::class, 'destroy']);
+    Route::post('/edit_kriteria', [KriteriaController::class, 'update']);
+
+    Route::get('/instrument',[InstrumentController::class,'index']);
+    Route::get('/tambah_instrument', [InstrumentController::class, 'add']);
+    Route::post('/tambah_instrument', [InstrumentController::class, 'store']);
+    Route::post('/hapus_instrument', [InstrumentController::class, 'destroy']);
+    Route::post('/edit_instrument', [InstrumentController::class, 'update']);
+
     Route::post('/logout', [UserController::class, 'logout']);
 });
 
@@ -39,7 +52,10 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', [UserController::class, 'tampil_login'])->name('login');
     Route::post('/login', [UserController::class, 'login']);
-    
 });
 
 Route::get('/', [UserController::class, 'index']);
+// Route::get('/', function(){
+//     return view('welcome');
+// }
+// );

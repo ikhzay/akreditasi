@@ -23,6 +23,12 @@
                     <li  class="@if(Request::is('submenu')) active @elseif(Request::is('edit_aset/*')) active @endif">
                         <a href="/submenu"><i class="fa fa-sticky-note"></i> <span class="nav-label">Sub Menu</span></a>
                     </li>
+                    <li  class="@if(Request::is('kriteria')) active @endif">
+                        <a href="/kriteria"><i class="fa fa-sticky-note"></i> <span class="nav-label">Kriteria</span></a>
+                    </li>
+                    <li  class="@if(Request::is('instrument')) active @elseif(Request::is('tambah_instrument')) active @endif">
+                        <a href="/instrument"><i class="fa fa-sticky-note"></i> <span class="nav-label">Instrument</span></a>
+                    </li>
                 </ul>
 
             </div>

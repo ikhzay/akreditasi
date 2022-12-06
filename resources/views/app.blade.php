@@ -15,11 +15,14 @@
 
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet"> --}}
     <script src="{{ asset('js/alert.js') }}"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
+    
+    {{-- <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/balloon/ckeditor.js"></script> --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/classic/ckeditor.js"></script>
 </head>
 
 <body>
@@ -52,6 +55,18 @@
     <!-- Custom and plugin javascript -->
     <script src={{ asset('js/inspinia.js') }}></script>
     <script src={{ asset('js/plugins/pace/pace.min.js') }}></script>
+
+     <!-- SUMMERNOTE -->
+     {{-- <script src={{ asset('js/plugins/summernote/summernote-bs4.js') }}></script> --}}
+     {{-- <script src=""></script> --}}
+     {{-- <script>
+         $(document).ready(function(){
+             $('.summernote').summernote();
+        });
+     </script> --}}
+
+
+
 
     <!-- jQuery UI -->
     <script src={{ asset('js/plugins/jquery-ui/jquery-ui.min.js') }}></script>
@@ -88,6 +103,16 @@
         });
     </script>
 
+    {{-- CKEditor --}}
+    <script>
+        ClassicEditor.create( document.querySelector( '#EditorElement' ) ).catch( error => {
+            console.error( error );
+        });
+        ClassicEditor.create( document.querySelector( '#EditorDescriptor' ) ).catch( error => {
+            console.error( error );
+        });
+    </script>
+
     @if (session()->has('success'))
         <script>
             swal("Berhasil!", "{{ session('success') }}", "success");
@@ -109,7 +134,7 @@
             }
         </script>
     @endif
-
+    
     @if (Request::is('submenu'))
         <script>
             function buttonModalEditSubMenu(params) {
@@ -124,7 +149,28 @@
             }
         </script>
     @endif
-
+    @if (Request::is('kriteria'))
+        <script>
+            function buttonModalEditKriteria(params) {
+                console.log(params);
+                $('#ModalEditKriteria').modal('show');
+                $("#formModalIdKriteria").val(params.id);
+                $("#formModalKriteria").val(params.kriteria);
+                $("#formModalDeskripsi").val(params.deskripsi);
+            }
+        </script>
+    @endif
+    @if (Request::is('instrument'))
+        <script>
+            function buttonModalEditKriteria(params) {
+                console.log(params);
+                $('#ModalEditKriteria').modal('show');
+                $("#formModalIdKriteria").val(params.id);
+                $("#formModalKriteria").val(params.kriteria);
+                $("#formModalDeskripsi").val(params.deskripsi);
+            }
+        </script>
+    @endif
 
 </body>
 
