@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Instrument;
+use App\Models\Kriteria;
 use App\Models\Menu;
 use App\Models\SubMenu;
 use Illuminate\Http\Request;
@@ -24,6 +26,17 @@ class UserController extends Controller
         ]);
     }
 
+    public function mainpage(){
+        $data = Kriteria::with('instrument')->get();
+        // return response()->json([
+        //     'data' => $data
+        // ], 200);
+         
+        return view('mainpage',[
+            'title' => 'Main Page',
+            'data' => $data
+        ]);
+    }
 
     public function tampil_profil()
     {

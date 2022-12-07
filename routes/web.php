@@ -54,7 +54,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login', [UserController::class, 'login']);
 });
 
-Route::get('/', [UserController::class, 'index']);
+Route::get('/', [UserController::class, 'mainpage']);
 // Route::get('/', function(){
 //     return view('welcome');
 // }

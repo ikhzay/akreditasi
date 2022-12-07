@@ -10,4 +10,9 @@ class Instrument extends Model
     use HasFactory;
 
     protected $table = 'ak_instrument';
+    protected $with = ['penilaian'];
+
+    public function penilaian(){
+        return $this->hasMany(Penilaian::class);
+    }
 }

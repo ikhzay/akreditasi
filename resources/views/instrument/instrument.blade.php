@@ -29,7 +29,7 @@
                     <div class="ibox-content" style=" min-height: calc(100vh - 244px); ">
                         {{-- <button class="btn btn-lg btn-primary mb-3 mt-1" data-toggle="modal" data-target="#myModal"> Tambah
                             Instrument</button> --}}
-                        <a href="/tambah_instrument">tes</a>
+                        <a href="/tambah_instrument" class="btn btn-lg btn-primary mb-3 mt-1" >Tambah Instrument</a>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
@@ -63,7 +63,7 @@
                                                     <button class="btn btn-sm btn-info " type="button"
                                                         onclick="buttonModalEditKriteria({{ $item }})"><i
                                                             class="fa fa-paste"></i> Edit</button>
-                                                    <form action="/hapus_kriteria" method="post">
+                                                    <form action="/hapus_instrument" method="post">
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{ $item->id }}">
                                                         <button class="btn btn-sm btn-danger ml-2" type="submit"
@@ -78,7 +78,6 @@
 
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -134,16 +133,7 @@
                             <div id="hmm">
                                 <p>This is some sample content.</p>
                             </div>
-                            {{-- <textarea class="ckeditor form-control" name="description"></textarea> --}}
                         </div>
-                        {{-- <div class="form-group">
-                            <label>Deskriptor</label>
-                            <div class="ibox ">
-                                <div class="ibox-content no-padding">
-                                    <div class="summernote">
-                                </div>
-                            </div>
-                        </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>

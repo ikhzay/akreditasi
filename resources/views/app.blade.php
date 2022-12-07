@@ -111,6 +111,18 @@
         ClassicEditor.create( document.querySelector( '#EditorDescriptor' ) ).catch( error => {
             console.error( error );
         });
+        ClassicEditor.create( document.querySelector( '#EditorSangatBaik' ) ).catch( error => {
+            console.error( error );
+        });
+        ClassicEditor.create( document.querySelector( '#EditorBaik' ) ).catch( error => {
+            console.error( error );
+        });
+        ClassicEditor.create( document.querySelector( '#EditorCukupBaik' ) ).catch( error => {
+            console.error( error );
+        });
+        ClassicEditor.create( document.querySelector( '#EditorTidakBaik' ) ).catch( error => {
+            console.error( error );
+        });
     </script>
 
     @if (session()->has('success'))

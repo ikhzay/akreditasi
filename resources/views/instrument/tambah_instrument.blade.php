@@ -69,8 +69,38 @@
                                 <label>Descriptor</label>
                                 <textarea class="form-control" id="EditorDescriptor" placeholder="Masukkan Descriptor" name="descriptor"></textarea>
                             </div>
-                        {{-- <button type="button" class="btn btn-white" data-dismiss="modal">Close</button> --}}
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                            <div class="form-group">
+                                <label>Penilaian</label>
+                                <div class="form-check abc-radio mb-2">
+                                    <input class="form-check-input" type="radio" name="radio1" id="radio1" value="4" checked="">
+                                    <label class="form-check-label" for="radio1">
+                                        Sangat Baik
+                                    </label>
+                                    <textarea class="form-control" id="EditorSangatBaik" placeholder="Masukkan Deskripsi" name="nilai4"></textarea>
+                                </div>
+                                <div class="form-check abc-radio mb-2">
+                                    <input class="form-check-input" type="radio" name="radio1" id="radio2" value="3" checked="">
+                                    <label class="form-check-label" for="radio2">
+                                        Baik
+                                    </label>
+                                    <textarea class="form-control" id="EditorBaik" placeholder="Masukkan Deskripsi" name="nilai3"></textarea>
+                                </div>
+                                <div class="form-check abc-radio mb-2">
+                                    <input class="form-check-input" type="radio" name="radio1" id="radio3" value="2" checked="">
+                                    <label class="form-check-label" for="radio3">
+                                        Cukup
+                                    </label>
+                                    <textarea class="form-control" id="EditorCukupBaik" placeholder="Masukkan Deskripsi" name="nilai2"></textarea>
+                                </div>
+                                <div class="form-check abc-radio">
+                                    <input class="form-check-input" type="radio" name="radio1" id="radio4" value="1" checked="">
+                                    <label class="form-check-label" for="radio4">
+                                        Kurang
+                                    </label>
+                                    <textarea class="form-control" id="EditorTidakBaik" placeholder="Masukkan Deskripsi" name="nilai1"></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
                 </div>
