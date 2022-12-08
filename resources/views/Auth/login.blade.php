@@ -78,7 +78,7 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-            <a href="/" class="text-muted"> Link-Tree IF-UNRAM </a>
+            <a href="/" class="text-muted"> Sistem Informasi Akreditasi PSTI - LAM INFOKOM </a>
             
             <small>© 2022</small>
         </div>
