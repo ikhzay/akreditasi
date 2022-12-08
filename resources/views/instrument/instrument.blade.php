@@ -39,8 +39,9 @@
                                         <th class="text-center">Jenis</th>
                                         <th class="text-center">No. Butir</th>
                                         <th class="text-center">Bobot</th>
-                                        <th class="text-center">element</th>
-                                        <th class="text-center">deskriptor</th>
+                                        <th class="text-center">Element</th>
+                                        <th class="text-center">Deskriptor</th>
+                                        <th class="text-center">Nilai</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -53,16 +54,18 @@
                                             <td class="text-center">{{ $item->no_butir }}</td>
                                             <td class="text-center">{{ $item->bobot }}</td>
                                             <td class="text-center">{!!$item->element!!}</td>
-                                            {{-- <td class="text-center"><p>[]tes lho</p></td> --}}
                                             <td class="text-center">{!!$item->descriptor!!}</td>
+                                            <td class="text-center">{{$item->nilai}}</td>
                                             {{-- <td class="text-center">
                                                 <a href="{{ $item->link }}" target="_blank"> {{ $item->link }} </a>
                                             </td> --}}
                                             <td class="text-center" style="width: 153px">
                                                 <div style="display:flex;">
-                                                    <button class="btn btn-sm btn-info " type="button"
+                                                    {{-- <button class="btn btn-sm btn-info " type="button"
                                                         onclick="buttonModalEditKriteria({{ $item }})"><i
-                                                            class="fa fa-paste"></i> Edit</button>
+                                                            class="fa fa-paste"></i> Edit</button> --}}
+                                                    <a href="/edit_instrument/{{ $item->id }}" class="btn btn-sm btn-info "><i
+                                                        class="fa fa-paste"></i> Edit</a>
                                                     <form action="/hapus_instrument" method="post">
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{ $item->id }}">

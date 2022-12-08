@@ -41,7 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/tambah_instrument', [InstrumentController::class, 'add']);
     Route::post('/tambah_instrument', [InstrumentController::class, 'store']);
     Route::post('/hapus_instrument', [InstrumentController::class, 'destroy']);
-    Route::post('/edit_instrument', [InstrumentController::class, 'update']);
+    Route::get('/edit_instrument/{id}', [InstrumentController::class, 'edit']);
+    Route::post('/update_instrument', [InstrumentController::class, 'update']);
 
     Route::post('/logout', [UserController::class, 'logout']);
 });

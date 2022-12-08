@@ -86,6 +86,7 @@
                                             <th>Baik</th>
                                             <th>Cukup</th>
                                             <th>Kurang</th>
+                                            <th>Nilai</th>
                                             <th>Skor</th>
                                         </tr>
                                     </thead>
@@ -102,6 +103,7 @@
                                             <td>{!!$inst->penilaian[1]->deskripsi!!}</td>
                                             <td>{!!$inst->penilaian[2]->deskripsi!!}</td>
                                             <td>{!!$inst->penilaian[3]->deskripsi!!}</td>
+                                            <td>{{$inst->nilai}}</td>
                                             <td>{{$inst->skor}}</td>
                                         </tr>
                                         @endforeach
@@ -118,6 +120,7 @@
                                             <th>Baik</th>
                                             <th>Cukup</th>
                                             <th>Kurang</th>
+                                            <th>Nilai</th>
                                             <th>Skor</th>
                                         </tr>
                                     </tfoot>

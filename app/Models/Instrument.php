@@ -15,4 +15,8 @@ class Instrument extends Model
     public function penilaian(){
         return $this->hasMany(Penilaian::class);
     }
+
+    public function kriteria(){
+        return $this->belongsTo(Kriteria::class);
+    }
 }

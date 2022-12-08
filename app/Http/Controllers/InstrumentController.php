@@ -27,12 +27,23 @@ class InstrumentController extends Controller
         return view('instrument.tambah_instrument', compact('dataKriteria','title'));
     }
 
+    public function edit(Request $request){
+        $title = "Edit Instrument";
+        $instrument = Instrument::where('id',$request->id)->with('kriteria')->first();
+        $kriteria = Kriteria::get();
+        return view('instrument.edit_instrument',[
+            'instrument'=>$instrument,
+            'dataKriteria' => $kriteria,
+            'title' => $title
+            ]
+        );
+    }
+
     public function store(Request $request){
         $validator = Validator::make($request->all(),[
             "kriteria_id" => "required",
             "jenis" => "required",
             "no_urut" => "required",
-            "no_butir" => "required",
             "bobot" => "required",
             "element" => "required",
             "descriptor" => "required",
@@ -98,9 +109,14 @@ class InstrumentController extends Controller
     }
 
     public function update(Request $request){
+        // return $request;
         $validator = Validator::make($request->all(),[
-            "instrument" => "required",
-            "deskripsi" => "required",
+            "kriteria_id" => "required",
+            "jenis" => "required",
+            "no_urut" => "required",
+            "bobot" => "required",
+            "element" => "required",
+            "descriptor" => "required",
         ]);
 
         if($validator->fails()){
@@ -112,8 +128,26 @@ class InstrumentController extends Controller
         
         $data = Instrument::firstWhere('id',$request->id);
         if ($data){
-            $data->instrument = $request->instrument;
-            $data->deskripsi = $request->deskripsi;
+            $data->kriteria_id = $request->kriteria_id;
+            $data->jenis = $request->jenis;
+            $data->no_urut = $request->no_urut;
+            $data->no_butir = $request->no_butir;
+            $data->bobot = $request->bobot;
+            $data->element = $request->element;
+            $data->descriptor = $request->descriptor;
+            $data->nilai = $request->radio1;
+            $data->skor = ($data->nilai/4)*$data->bobot;
+            $data->penilaian[0]->deskripsi = $request->nilai4;
+            $data->penilaian[1]->deskripsi = $request->nilai3;
+            $data->penilaian[2]->deskripsi = $request->nilai2;
+            $data->penilaian[3]->deskripsi = $request->nilai1;
+        
+            foreach($data->penilaian as $p){
+                $penilaian = Penilaian::where('id',$p['id'])->first();
+                $penilaian->deskripsi = $p['deskripsi'];
+                $penilaian->update();
+            }
+
             $data->update();
             return redirect('/instrument')->with('success', 'Data Berhasil Diubah');
         }else{
