@@ -66,7 +66,7 @@ class UserController extends Controller
         // echo Auth::user()->username;
         if (Auth::attempt($data)) { // true sekalian session field di users nanti bisa dipanggil via Auth
             // echo "Login Success";
-            return redirect('/menu');
+            return redirect('/kriteria');
         } else { // false
             //Login Fail
             return redirect('/login')->with('message', 'Username atau password salah');

@@ -1,6 +1,8 @@
 @extends('app')
 
 @section('content')
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Instrument</h2>
@@ -26,7 +28,7 @@
                     <div class="ibox-title">
                         <h5>Menu</h5>
                     </div>
-                    <div class="modal-body bg-white">
+                    <div class="ibox-content bg-white">
                         <form role="form" method="post" action="/tambah_instrument">
                             @csrf
                             <div class="form-group">
@@ -69,6 +71,24 @@
                                 <label>Descriptor</label>
                                 <textarea class="form-control" id="EditorDescriptor" placeholder="Masukkan Descriptor" name="descriptor"></textarea>
                             </div>
+                            
+                            <div class="form-group">
+                                <label>Dokumen</label><br>
+                                <button class="btn btn-lg btn-primary mb-3 mt-1" type="button" onclick="showTambahDokumen()"><i class="fa fa-plus"></i></button>
+                                <table class="table table-striped table-bordered table-hover" id="tabelDokumen">
+                                    <thead>
+                                        <tr>
+                                            {{-- <th class="text-center">No</th> --}}
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Nama Dokument</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="form-group">
                                 <label>Penilaian</label>
                                 <div class="form-check abc-radio mb-2">
@@ -107,4 +127,103 @@
             </div>
         </div>
     </div>
+
+    <div class="modal inmodal" id="tambahDokumen" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeIn">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Tambah Dokumen</h4>
+                </div>
+                <div class="modal-body bg-white">
+                    <form role="form" method="post" id="file-upload" action="/uploadFile" enctype="multipart/form-data"    >
+                        @csrf
+                        <div class="form-group">
+                            <label>Dokumen</label>
+                            <input class="form-control" type="file" id="inputFile" name="file" required autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <input class="form-control" type="text" id="keterangan" name="keterangan" autocomplete="off">
+                        </div>
+                        <span class="text-danger" id="file-input-error"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="simpan">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- <script>
+        function showTambahDokumen(){
+            $('#tambahDokumen').modal('show');
+        }
+
+        $(document).ready(function(){
+            $('#simpan').click(function(event){
+                ket = document.getElementById('keterangan').value;;
+                console.log(ket);
+            }); 
+      });
+    </script> --}}
+
+    <script type="text/javascript">
+
+        function showTambahDokumen(){
+            $('#tambahDokumen').modal('show');
+        }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+      
+        var no=0;
+        $('#file-upload').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            console.log(formData);
+            $('#file-input-error').text('');
+    
+            $.ajax({
+                type:'POST',
+                url: "{{ url('uploadFile') }}",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: (response) => {
+                    if (response) {
+                        this.reset();
+                        $('#tambahDokumen').modal('hide');
+                        console.log(response.data.keterangan);
+                        // var t = $('#tabelDokumen');
+                        // t.row.add(1,response.data.keterangan,'tes');
+                        no+=1;
+                        var html = '<tr>';
+                            html += '<td>'+no+'</td>';
+                            html += '<td>'+response.data.keterangan+'</td>';
+                            html += '<td><button type="button" onclick="openFile(`'+response.data.nama+'`)">lihat</button></td>';
+                            html += '</tr>';
+                            $('#tabelDokumen').prepend(html);
+                        alert('File has been uploaded successfully');
+                        // $tabelDokumen = document.getElementById('tabelDokumen');
+                    }
+                },
+                error: function(response){
+                    // console.log("error");
+                    $('#file-input-error').text(response.responseJSON.message);
+                }
+           });
+        });
+          
+        function openFile(tes){
+            //  window.open("https://www.w3schools.com");
+             window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
+        }
+    </script>
 @endsection

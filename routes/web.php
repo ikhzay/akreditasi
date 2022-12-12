@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\InstrumentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
@@ -43,6 +44,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/hapus_instrument', [InstrumentController::class, 'destroy']);
     Route::get('/edit_instrument/{id}', [InstrumentController::class, 'edit']);
     Route::post('/update_instrument', [InstrumentController::class, 'update']);
+    
+    Route::post('/uploadFile', [DokumenController::class, 'uploadFile']);
+    Route::get('/tes', [DokumenController::class, 'tes']);
 
     Route::post('/logout', [UserController::class, 'logout']);
 });

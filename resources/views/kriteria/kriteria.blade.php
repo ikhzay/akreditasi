@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-
+modalmodal
 
     <div class="modal inmodal" id="myModal" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
