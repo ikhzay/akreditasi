@@ -29,7 +29,7 @@
                         <h5>Menu</h5>
                     </div>
                     <div class="ibox-content bg-white">
-                        <form role="form" method="post" action="/tambah_instrument">
+                        <form role="form" id="tambahInstrumen">
                             @csrf
                             <div class="form-group">
                                 <label>Kriteria</label>
@@ -41,11 +41,6 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                {{-- @error('kriteria')
-                                    <script>
-                                        swal("Oppss!", "Nama menu telah tersedia!", "error");
-                                    </script>
-                                @enderror --}}
                             </div>
                             <div class="form-group">
                                 <label>Jenis</label>
@@ -137,7 +132,7 @@
                     <h4 class="modal-title">Tambah Dokumen</h4>
                 </div>
                 <div class="modal-body bg-white">
-                    <form role="form" method="post" id="file-upload" action="/uploadFile" enctype="multipart/form-data"    >
+                    <form role="form" method="post" id="file-upload" enctype="multipart/form-data"    >
                         @csrf
                         <div class="form-group">
                             <label>Dokumen</label>
@@ -182,14 +177,16 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-      
+        
         var no=0;
+        var dataDokumen= [];
+        // UPLOAD FILE BARU
         $('#file-upload').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
             console.log(formData);
             $('#file-input-error').text('');
-    
+            
             $.ajax({
                 type:'POST',
                 url: "{{ url('uploadFile') }}",
@@ -200,17 +197,33 @@
                     if (response) {
                         this.reset();
                         $('#tambahDokumen').modal('hide');
-                        console.log(response.data.keterangan);
                         // var t = $('#tabelDokumen');
                         // t.row.add(1,response.data.keterangan,'tes');
-                        no+=1;
-                        var html = '<tr>';
-                            html += '<td>'+no+'</td>';
-                            html += '<td>'+response.data.keterangan+'</td>';
-                            html += '<td><button type="button" onclick="openFile(`'+response.data.nama+'`)">lihat</button></td>';
-                            html += '</tr>';
-                            $('#tabelDokumen').prepend(html);
-                        alert('File has been uploaded successfully');
+                        dataDokumen.push(response);
+                        console.log(dataDokumen);
+                        var t = document.getElementById("tabelDokumen");
+                        var r = document.createElement("TR");
+                        for(i=0;i<dataDokumen.length;i++){
+                            console.log(dataDokumen[i].data.keterangan);
+                            r.innerHTML =   `
+                                                <tr>    
+                                                    <td>`+(i+1)+`</td>
+                                                    <td>`+dataDokumen[i].data.keterangan+`</td>
+                                                    <td>
+                                                        <form action="/openFile" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="file" value=""{{ url('/file/') }}"`+dataDokumen[i].data.name+`">
+                                                        <button class="btn btn-sm btn-danger ml-2" type="submit" onclick="return confirm('Are you sure? The Submenus will be deleted also')">Hapus</button>
+                                                        </form>    
+                                                    </td>
+                                                </tr>
+                                            `;
+                            t.tBodies[0].appendChild(r);
+                        }
+                        // $('#tabelDokumen').prepend(html);
+
+                         swal("Sukses", "Dokumen berhasil di upload", "success");
+                        // alert('File has been uploaded successfully');
                         // $tabelDokumen = document.getElementById('tabelDokumen');
                     }
                 },
@@ -223,7 +236,34 @@
           
         function openFile(tes){
             //  window.open("https://www.w3schools.com");
-             window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
+            newWindow = window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
+            if (window.focus) {newWindow.focus()}
+            return false;
         }
+
+
+        $('#tambahInstrumen').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            console.log(formData);
+            $.ajax({
+                type:'POST',
+                url: "{{ url('tambah_instrument') }}",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: (response) => {
+                    if (response) {
+                        this.reset();
+                        console.log(response);
+                        swal("Sukses", "Dokumen berhasil di upload", "success");
+                    }
+                },
+                error: function(response){
+                    $('#file-input-error').text(response.responseJSON.message);
+                }
+           });
+            console.log('ini simpan');
+        });
     </script>
 @endsection

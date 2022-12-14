@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Validator;
 
 class DokumenController extends Controller
 {
-    public function tes(){
-        return "hhhh";
+    public function openFile(Request $request){
+        // return "hhhh"; 
+        return response()->file($request->file);
     }
+
     public function uploadFile(Request $request){
         // return "OK";
         $request->validate([
@@ -19,7 +21,7 @@ class DokumenController extends Controller
         ]);
         
         $fileName = time().'.'.$request->file->extension();  
-         
+            
         $request->file->move(public_path('file'), $fileName);
       
         $data = Dokumen::create(['nama' => $fileName,'keterangan' => $request->keterangan]);

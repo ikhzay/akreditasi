@@ -40,6 +40,7 @@ class InstrumentController extends Controller
     }
 
     public function store(Request $request){
+        return $request;
         $validator = Validator::make($request->all(),[
             "kriteria_id" => "required",
             "jenis" => "required",
@@ -55,7 +56,7 @@ class InstrumentController extends Controller
                 'message' => $validator->messages()->all()
             ],501);
         }
-      
+        
         $data = new Instrument();
         $data->kriteria_id = $request->kriteria_id;
         $data->jenis = $request->jenis;
