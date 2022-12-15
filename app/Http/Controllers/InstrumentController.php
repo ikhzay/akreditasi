@@ -41,7 +41,12 @@ class InstrumentController extends Controller
 
     public function store(Request $request){
         // return response()->json($request);
-        return $request;
+        // return $request;
+
+        foreach ($request->dok as $d){
+            return $d;
+        }
+
         $validator = Validator::make($request->all(),[
             "kriteria_id" => "required",
             "jenis" => "required",

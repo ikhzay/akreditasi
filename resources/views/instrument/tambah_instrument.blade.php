@@ -29,7 +29,7 @@
                         <h5>Menu</h5>
                     </div>
                     <div class="ibox-content bg-white">
-                        <form role="form" id="tambahInstrumen" method="POST" action="tambah_instrument">
+                        <form role="form" id="tambahInstrument">
                             @csrf
                             <div class="form-group">
                                 <label>Kriteria</label>
@@ -180,13 +180,14 @@
         
         var no=0;
         var dataDokumen= [];
+        var fm;
         // UPLOAD FILE BARU
         $('#file-upload').submit(function(e) {
             e.preventDefault();
             let formData = new FormData(this);
             console.log(formData);
             $('#file-input-error').text('');
-            
+            fm+=formData;
             $.ajax({
                 type:'POST',
                 url: "{{ url('uploadFile') }}",
@@ -200,7 +201,7 @@
                         // var t = $('#tabelDokumen');
                         // t.row.add(1,response.data.keterangan,'tes');
                         dataDokumen.push(response);
-                        console.log(dataDokumen);
+                        // console.log(dataDokumen);
                         var t = document.getElementById("tabelDokumen");
                         var r = document.createElement("TR");
                         for(i=0;i<dataDokumen.length;i++){
@@ -219,7 +220,7 @@
                                             `;
                             t.tBodies[0].appendChild(r);
                         }
-                        r.innerHTML =''
+                        // r.innerHTML =''
                         swal("Sukses", "Dokumen berhasil di upload", "success");
                     }
                 },
@@ -236,5 +237,34 @@
             if (window.focus) {newWindow.focus()}
             return false;
         }
+
+        $('#tambahInstrument').submit(function(e) {
+            e.preventDefault();
+            // console.log("tambah tombol");
+            let formData = new FormData(this);
+            console.log(dataDokumen);
+            formData.append('dok',dataDokumen);
+            // var json_arr = JSON.stringify(dataDokumen);
+            // $('#file-input-error').text('');
+            
+            $.ajax({
+                type:'POST',
+                url: "{{ url('tambah_instrument') }}",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: (response) => {
+                    if (response) {
+                        this.reset();
+                        console.log(response);
+                        swal("Sukses", "Dokumen berhasil di upload", "success");
+                    }
+                },
+                error: function(response){
+                    // console.log("error");
+                    $('#file-input-error').text(response.responseJSON.message);
+                }
+           });
+        });
     </script>
 @endsection
