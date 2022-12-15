@@ -29,7 +29,7 @@
                         <h5>Menu</h5>
                     </div>
                     <div class="ibox-content bg-white">
-                        <form role="form" id="tambahInstrumen">
+                        <form role="form" id="tambahInstrumen" method="POST" action="tambah_instrument">
                             @csrf
                             <div class="form-group">
                                 <label>Kriteria</label>
@@ -44,19 +44,19 @@
                             </div>
                             <div class="form-group">
                                 <label>Jenis</label>
-                                <input class="form-control" type="text" name="jenis" autocomplete="off">
+                                <input class="form-control" type="text" name="jenis" id="jenis"  autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>No. Urut</label>
-                                <input class="form-control" type="text" name="no_urut" autocomplete="off">
+                                <input class="form-control" type="text" name="no_urut" id="no_urut" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>No. Butir</label>
-                                <input class="form-control" type="text" name="no_butir" autocomplete="off">
+                                <input class="form-control" type="text" name="no_butir" id="no_butir" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>Bobot</label>
-                                <input class="form-control" type="text" name="bobot" autocomplete="off">
+                                <input class="form-control" type="text" name="bobot" id="bobot" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>Element</label>
@@ -212,7 +212,6 @@
                                                     <td>
                                                         <form action="/openFile" method="post">
                                                         @csrf
-                                                        <input type="hidden" name="file" value=""{{ url('/file/') }}"`+dataDokumen[i].data.name+`">
                                                         <button class="btn btn-sm btn-danger ml-2" type="submit" onclick="return confirm('Are you sure? The Submenus will be deleted also')">Hapus</button>
                                                         </form>    
                                                     </td>
@@ -220,11 +219,8 @@
                                             `;
                             t.tBodies[0].appendChild(r);
                         }
-                        // $('#tabelDokumen').prepend(html);
-
-                         swal("Sukses", "Dokumen berhasil di upload", "success");
-                        // alert('File has been uploaded successfully');
-                        // $tabelDokumen = document.getElementById('tabelDokumen');
+                        r.innerHTML =''
+                        swal("Sukses", "Dokumen berhasil di upload", "success");
                     }
                 },
                 error: function(response){
@@ -240,30 +236,5 @@
             if (window.focus) {newWindow.focus()}
             return false;
         }
-
-
-        $('#tambahInstrumen').submit(function(e) {
-            e.preventDefault();
-            let formData = new FormData(this);
-            console.log(formData);
-            $.ajax({
-                type:'POST',
-                url: "{{ url('tambah_instrument') }}",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: (response) => {
-                    if (response) {
-                        this.reset();
-                        console.log(response);
-                        swal("Sukses", "Dokumen berhasil di upload", "success");
-                    }
-                },
-                error: function(response){
-                    $('#file-input-error').text(response.responseJSON.message);
-                }
-           });
-            console.log('ini simpan');
-        });
     </script>
 @endsection
