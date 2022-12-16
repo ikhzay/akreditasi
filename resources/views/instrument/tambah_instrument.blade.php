@@ -29,7 +29,8 @@
                         <h5>Menu</h5>
                     </div>
                     <div class="ibox-content bg-white">
-                        <form role="form" id="tambahInstrument">
+                        {{-- <form role="form" id="tambahInstrument"> --}}
+                        <form role="form" action="/tambah_instrument" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label>Kriteria</label>
@@ -206,8 +207,9 @@
                         var r = document.createElement("TR");
                         for(i=0;i<dataDokumen.length;i++){
                             console.log(dataDokumen[i].data.keterangan);
-                            r.innerHTML =   `
-                                                <tr>    
+                            r.innerHTML =   `   
+                                                <tr>
+                                                    <input class="form-control" type="hidden" name="id_dok[]" value="`+dataDokumen[i].data.id+`" autocomplete="off">
                                                     <td>`+(i+1)+`</td>
                                                     <td>`+dataDokumen[i].data.keterangan+`</td>
                                                     <td>
@@ -238,33 +240,34 @@
             return false;
         }
 
-        $('#tambahInstrument').submit(function(e) {
-            e.preventDefault();
-            // console.log("tambah tombol");
-            let formData = new FormData(this);
-            console.log(dataDokumen);
-            formData.append('dok',dataDokumen);
-            // var json_arr = JSON.stringify(dataDokumen);
-            // $('#file-input-error').text('');
+        // $('#tambahInstrument').submit(function(e) {
+        //     e.preventDefault();
+        //     // console.log("tambah tombol");
+        //     let formData = new FormData(this);
+        //     // const obj = Object.assign({}, dataDokumen)
+        //     // console.log(obj);
+        //     // formData.append('dok',obj);
+        //     // var json_arr = JSON.stringify(dataDokumen);
+        //     // $('#file-input-error').text('');
             
-            $.ajax({
-                type:'POST',
-                url: "{{ url('tambah_instrument') }}",
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: (response) => {
-                    if (response) {
-                        this.reset();
-                        console.log(response);
-                        swal("Sukses", "Dokumen berhasil di upload", "success");
-                    }
-                },
-                error: function(response){
-                    // console.log("error");
-                    $('#file-input-error').text(response.responseJSON.message);
-                }
-           });
-        });
+        //     $.ajax({
+        //         type:'POST',
+        //         url: "{{ url('tambah_instrument') }}",
+        //         data: formData,
+        //         contentType: false,
+        //         processData: false,
+        //         success: (response) => {
+        //             if (response) {
+        //                 this.reset();
+        //                 console.log(response);
+        //                 swal("Sukses", "Dokumen berhasil di upload", "success");
+        //             }
+        //         },
+        //         error: function(response){
+        //             // console.log("error");
+        //             $('#file-input-error').text(response.responseJSON.message);
+        //         }
+        //    });
+        // });
     </script>
 @endsection

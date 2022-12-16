@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dokumen;
 use App\Models\Instrument;
 use App\Models\Kriteria;
 use App\Models\Penilaian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use League\CommonMark\Node\Block\Document;
 
 class InstrumentController extends Controller
 {
@@ -41,11 +43,6 @@ class InstrumentController extends Controller
 
     public function store(Request $request){
         // return response()->json($request);
-        // return $request;
-
-        foreach ($request->dok as $d){
-            return $d;
-        }
 
         $validator = Validator::make($request->all(),[
             "kriteria_id" => "required",
@@ -76,6 +73,11 @@ class InstrumentController extends Controller
 
         $data->save();
         $instrument = Instrument::orderBy('created_at', 'DESC')->first();
+        foreach($request->id_dok as $dok){
+            $document = Dokumen::where('id',$dok)->first();
+            $document->instrument_id = $instrument->id;
+            $document->update();
+        }
         
         $pen = [
             [
@@ -112,7 +114,12 @@ class InstrumentController extends Controller
             $penilaian->keterangan = $p['keterangan'];
             $penilaian->save();
         }
-        return redirect('/instrument')->with('success', 'Data Berhasil Ditambah');
+        // return redirect('/instrument')->with('success', 'Data Berhasil Ditambah');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'File Uploaded',
+            'data' => $data
+        ], 200);
     }
 
     public function update(Request $request){
