@@ -42,7 +42,7 @@ class InstrumentController extends Controller
     }
 
     public function store(Request $request){
-        return response()->json($request);
+        // return response()->json($request);
 
         $validator = Validator::make($request->all(),[
             "kriteria_id" => "required",

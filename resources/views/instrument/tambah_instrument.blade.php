@@ -75,8 +75,8 @@
                                     <thead>
                                         <tr>
                                             {{-- <th class="text-center">No</th> --}}
-                                            <th class="text-center">No</th>
-                                            <th class="text-center">Nama Dokument</th>
+                                            {{-- <th class="text-center">No</th> --}}
+                                            <th class="text-center">Nama Dokumen</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -154,20 +154,7 @@
             </div>
         </div>
     </div>
-    {{-- <script>
-        function showTambahDokumen(){
-            $('#tambahDokumen').modal('show');
-        }
-
-        $(document).ready(function(){
-            $('#simpan').click(function(event){
-                ket = document.getElementById('keterangan').value;;
-                console.log(ket);
-            }); 
-      });
-    </script> --}}
-
-    <script type="text/javascript">
+      <script type="text/javascript">
 
         function showTambahDokumen(){
             $('#tambahDokumen').modal('show');
@@ -206,16 +193,17 @@
                         var t = document.getElementById("tabelDokumen");
                         var r = document.createElement("TR");
                         for(i=0;i<dataDokumen.length;i++){
+                            r.setAttribute('id',dataDokumen[i].data.id);
                             console.log(dataDokumen[i].data.keterangan);
                             r.innerHTML =   `   
-                                                <tr>
+                                                
                                                     <input class="form-control" type="hidden" name="id_dok[]" value="`+dataDokumen[i].data.id+`" autocomplete="off">
-                                                    <td>`+(i+1)+`</td>
+                                                    <!--<td>`+(i+1)+`</td>-->
                                                     <td>`+dataDokumen[i].data.keterangan+`</td>
                                                     <td>
-                                                        <a class="btn btn-danger btn-action" onclick="hapus(`+dataDokumen[i].data.id+`)">hapus `+dataDokumen[i].data.id+`</a>
+                                                        <a class="btn btn-danger btn-action" onclick="hapus(`+dataDokumen[i].data.id+`)">hapus</a>
                                                     </td>
-                                                </tr>
+                                               
                                             `;
                             t.tBodies[0].appendChild(r);
                         }
@@ -253,7 +241,11 @@
                 url: url,
                 method: 'DELETE',
                 success:function(xhr, ajaxOptions, thrownError){
+                    $("#"+$id).remove();
+                    // $(this).closest('tr[id]').remove();
+                    console.log("ini id :"+$id);
                     swal('Berhasil', 'Data Terhapus', 'success');
+                    
                 },
                 error: function() {
                 }
