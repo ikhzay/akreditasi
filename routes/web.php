@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     
     Route::post('/uploadFile', [DokumenController::class, 'uploadFile']);
     Route::post('/openFile', [DokumenController::class, 'openFile']);
+    Route::delete('/hapusFile/{id}', [DokumenController::class, 'destroy']);
 
     Route::post('/logout', [UserController::class, 'logout']);
 });

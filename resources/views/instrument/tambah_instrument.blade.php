@@ -213,10 +213,7 @@
                                                     <td>`+(i+1)+`</td>
                                                     <td>`+dataDokumen[i].data.keterangan+`</td>
                                                     <td>
-                                                        <form action="/openFile" method="post">
-                                                        @csrf
-                                                        <button class="btn btn-sm btn-danger ml-2" type="submit" onclick="return confirm('Are you sure? The Submenus will be deleted also')">Hapus</button>
-                                                        </form>    
+                                                        <a class="btn btn-danger btn-action" onclick="hapus(`+dataDokumen[i].data.id+`)">hapus `+dataDokumen[i].data.id+`</a>
                                                     </td>
                                                 </tr>
                                             `;
@@ -237,6 +234,30 @@
             //  window.open("https://www.w3schools.com");
             newWindow = window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
             if (window.focus) {newWindow.focus()}
+            return false;
+        }
+
+        $('.fmh').submit(function(e) {
+            e.preventDefault();
+            console.log("hmm");
+        });
+        
+        //Hapus Data
+        function hapus($id){
+            console.log('ini mau ngapus id '+$id);
+            var url = "{{url('hapusFile')}}"+"/"+$id;
+            $.ajax({
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: url,
+                method: 'DELETE',
+                success:function(xhr, ajaxOptions, thrownError){
+                    swal('Berhasil', 'Data Terhapus', 'success');
+                },
+                error: function() {
+                }
+            });
             return false;
         }
 

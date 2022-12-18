@@ -42,7 +42,7 @@ class InstrumentController extends Controller
     }
 
     public function store(Request $request){
-        // return response()->json($request);
+        return response()->json($request);
 
         $validator = Validator::make($request->all(),[
             "kriteria_id" => "required",
@@ -114,12 +114,12 @@ class InstrumentController extends Controller
             $penilaian->keterangan = $p['keterangan'];
             $penilaian->save();
         }
-        // return redirect('/instrument')->with('success', 'Data Berhasil Ditambah');
-        return response()->json([
-            'status' => 'success',
-            'message' => 'File Uploaded',
-            'data' => $data
-        ], 200);
+        return redirect('/instrument')->with('success', 'Data Berhasil Ditambah');
+        // return response()->json([
+        //     'status' => 'success',
+        //     'message' => 'File Uploaded',
+        //     'data' => $data
+        // ], 200);
     }
 
     public function update(Request $request){

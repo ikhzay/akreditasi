@@ -31,5 +31,15 @@ class DokumenController extends Controller
             'data' => $data
         ], 200);
     }
+
+    public function destroy($id){
+        $data = Dokumen::findOrFail($id);
+        $data->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Dokumen Deleted',
+            'data' => null
+        ], 201);
+    }
   
 }
