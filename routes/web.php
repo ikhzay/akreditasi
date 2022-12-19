@@ -46,7 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update_instrument', [InstrumentController::class, 'update']);
     
     Route::post('/uploadFile', [DokumenController::class, 'uploadFile']);
-    Route::post('/openFile', [DokumenController::class, 'openFile']);
+    Route::get('/openFile/{id}', [DokumenController::class, 'openFile']);
+    Route::get('/getDocument/{id}', [DokumenController::class, 'getDocument']);
     Route::delete('/hapusFile/{id}', [DokumenController::class, 'destroy']);
 
     Route::post('/logout', [UserController::class, 'logout']);

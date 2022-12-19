@@ -92,7 +92,7 @@
                                     </thead>
                                     <tbody style="font-size: 9px">
                                         @foreach ($item->instrument as $inst)
-                                        <tr class="gradeX">
+                                        <tr class="gradeX" onclick="showModal({{$inst->id}})">
                                             <td>{{$inst->jenis}}</td>
                                             <td>{{$inst->no_urut}}</td>
                                             <td>{{$inst->no_butir}}</td>
@@ -178,6 +178,72 @@
             </div>
         </div>
     </section>
+
+    <div class="modal inmodal" id="showDokumen" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated fadeIn">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Dokumen Penunjang</h4>
+                </div>
+                <div class="modal-body bg-white">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">File</th>
+                            <th scope="col">Aksi</th>
+                          </tr>
+                        </thead>
+                        <tbody id="dataDokumen"></tbody>
+                      </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" id="simpan">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showModal($id){
+            $('#showDokumen').modal('show');
+            console.log("ini id : "+$id);
+            var tableData='';
+            $.ajax({
+                type : 'get',
+                url : "{{url('getDocument')}}"+"/"+$id,
+                dataType : 'json',
+                success : function(data){
+                //         '<input class="form-control" type="text" id="nama_guru" value="'+data.data.nama_guru+'">';
+                console.log(data.data.length);
+                for(i=0;i<data.data.length;i++){
+                    tableData+=`
+                        <tr>
+                            <th scope="row">`+(i+1)+`</th>
+                            <td>`+data.data[i].keterangan+`</td>
+                            <td>
+                                <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('`+data.data[i].nama+`')"><i
+                                                                class="fa fa-eye"></i> Lihat</a>    
+                            </td>
+                        </tr>
+                    `;
+                }
+                $('#dataDokumen').html(tableData);//menampilkan data ke dalam modal
+                // console.log(data);
+                }
+            });
+            //Mengambil data untuk diubah
+        }
+
+        function openFile(tes){
+            newWindow = window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
+            if (window.focus) {newWindow.focus()}
+            return false;
+        }
+    </script>
 
     <script src={{ asset('js/jquery-2.1.1.js') }}></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"

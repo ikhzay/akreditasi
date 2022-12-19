@@ -201,7 +201,10 @@
                                                     <!--<td>`+(i+1)+`</td>-->
                                                     <td>`+dataDokumen[i].data.keterangan+`</td>
                                                     <td>
-                                                        <a class="btn btn-danger btn-action" onclick="hapus(`+dataDokumen[i].data.id+`)">hapus</a>
+                                                        <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus(`+dataDokumen[i].data.id+`)"><i
+                                                                class="fa fa-trash"></i> Hapus</a>
+                                                        <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('`+dataDokumen[i].data.nama+`')"><i
+                                                                class="fa fa-trash"></i> Lihat</a>
                                                     </td>
                                                
                                             `;
@@ -219,7 +222,6 @@
         });
           
         function openFile(tes){
-            //  window.open("https://www.w3schools.com");
             newWindow = window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
             if (window.focus) {newWindow.focus()}
             return false;
