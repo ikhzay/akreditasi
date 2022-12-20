@@ -41,7 +41,6 @@
             <div class="col-lg-12 text-center">
                 <div class="navy-line"></div>
                 <h1><span class="mb-4" style="font-weight: bold; color:#29375B; "> Sistem Informasi Akreditasi PSTI</span> </h1>
-                {{-- <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. </p> --}}
             </div>
         </div>
         
@@ -126,25 +125,20 @@
                                     </tfoot>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                     @endforeach
                 </div>
             </div>
         </div>
-
         <div class="row mt-4">
             <div class="col-md-3 text-center wow fadeInLeft">
             </div>
-            
         </div>
         <div class="col-md-3 text-center wow fadeInRight">
         </div>
         </div>
-
     </section>
-
     <section id="contact" class="gray-section contact">
         <div class="container">
             <div class="row m-b-lg">
@@ -201,12 +195,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="simpan">Upload</button>
+                    {{-- <button type="submit" class="btn btn-primary" id="simpan">Upload</button> --}}
                 </div>
             </div>
         </div>
     </div>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         function showModal($id){
             $('#showDokumen').modal('show');
@@ -243,6 +238,12 @@
             if (window.focus) {newWindow.focus()}
             return false;
         }
+
+        $(document).ready(function(){
+            console.log("ini siap");
+            const nodes = element.getElementsByTagName("<td>");
+            console.log(nodes);
+        })
     </script>
 
     <script src={{ asset('js/jquery-2.1.1.js') }}></script>

@@ -74,8 +74,6 @@
                                 <table class="table table-striped table-bordered table-hover" id="tabelDokumen">
                                     <thead>
                                         <tr>
-                                            {{-- <th class="text-center">No</th> --}}
-                                            {{-- <th class="text-center">No</th> --}}
                                             <th class="text-center">Nama Dokumen</th>
                                             <th class="text-center">Action</th>
                                         </tr>
@@ -204,7 +202,7 @@
                                                         <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus(`+dataDokumen[i].data.id+`)"><i
                                                                 class="fa fa-trash"></i> Hapus</a>
                                                         <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('`+dataDokumen[i].data.nama+`')"><i
-                                                                class="fa fa-trash"></i> Lihat</a>
+                                                                class="fa fa-eye"></i> Lihat</a>
                                                     </td>
                                                
                                             `;
@@ -254,35 +252,5 @@
             });
             return false;
         }
-
-        // $('#tambahInstrument').submit(function(e) {
-        //     e.preventDefault();
-        //     // console.log("tambah tombol");
-        //     let formData = new FormData(this);
-        //     // const obj = Object.assign({}, dataDokumen)
-        //     // console.log(obj);
-        //     // formData.append('dok',obj);
-        //     // var json_arr = JSON.stringify(dataDokumen);
-        //     // $('#file-input-error').text('');
-            
-        //     $.ajax({
-        //         type:'POST',
-        //         url: "{{ url('tambah_instrument') }}",
-        //         data: formData,
-        //         contentType: false,
-        //         processData: false,
-        //         success: (response) => {
-        //             if (response) {
-        //                 this.reset();
-        //                 console.log(response);
-        //                 swal("Sukses", "Dokumen berhasil di upload", "success");
-        //             }
-        //         },
-        //         error: function(response){
-        //             // console.log("error");
-        //             $('#file-input-error').text(response.responseJSON.message);
-        //         }
-        //    });
-        // });
     </script>
 @endsection

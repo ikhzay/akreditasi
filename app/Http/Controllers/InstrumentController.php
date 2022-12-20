@@ -33,9 +33,17 @@ class InstrumentController extends Controller
         $title = "Edit Instrument";
         $instrument = Instrument::where('id',$request->id)->with('kriteria')->first();
         $kriteria = Kriteria::get();
+        $document = Dokumen::where('instrument_id',$request->id)->get();
+        // return response()->json([
+        //     'instrument'=>$instrument,
+        //     'dataKriteria' => $kriteria,
+        //     'document' => $document,
+        //     'title' => $title
+        // ], 200);
         return view('instrument.edit_instrument',[
             'instrument'=>$instrument,
             'dataKriteria' => $kriteria,
+            'document' => $document,
             'title' => $title
             ]
         );
@@ -123,6 +131,7 @@ class InstrumentController extends Controller
     }
 
     public function update(Request $request){
+        
         // return $request;
         $validator = Validator::make($request->all(),[
             "kriteria_id" => "required",
@@ -138,6 +147,15 @@ class InstrumentController extends Controller
                 'status' => 'Error',
                 'message' => $validator->messages()->all()
             ],501);
+        }
+
+
+        if ($request->id_dok){
+            foreach($request->id_dok as $dok){
+                $document = Dokumen::where('id',$dok)->first();
+                $document->instrument_id = $request->id;
+                $document->update();
+            }
         }
         
         $data = Instrument::firstWhere('id',$request->id);

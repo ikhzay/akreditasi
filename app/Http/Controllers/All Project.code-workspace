@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../../../../absen_siswa"
+		},
+		{
+			"path": "../../../../data-psti"
 		}
 	],
 	"settings": {}
