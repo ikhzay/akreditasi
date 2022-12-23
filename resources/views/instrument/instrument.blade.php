@@ -1,6 +1,8 @@
 @extends('app')
 
 @section('content')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Instrument</h2>
@@ -24,7 +26,23 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Menu</h5>
+                        {{-- <h5>Menu</h5> --}}
+                        <form id="form-filter" role="form">
+                            @csrf
+                            <div class="form-row align-items-center">
+                              <div class="col-auto">
+                                <label class="sr-only" for="kriteria">Kriteria</label>
+                                <input type="text" class="form-control mb-2" id="kriteria" placeholder="Kriteria">
+                              </div>
+                              <div class="col-auto">
+                                <label class="sr-only" for="nilai">Nilai</label>
+                                <input type="text" class="form-control mb-2" id="nilai" placeholder="Nilai">
+                              </div>
+                              <div class="col-auto">
+                                <button type="submit" class="btn btn-success mb-2" id="">Filter</button>
+                              </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="ibox-content" style=" min-height: calc(100vh - 244px); ">
                         {{-- <button class="btn btn-lg btn-primary mb-3 mt-1" data-toggle="modal" data-target="#myModal"> Tambah
@@ -179,4 +197,32 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('#form-filter').submit(function(e) {
+            e.preventDefault();
+            var kriteria = document.getElementById('kriteria').value;
+            var nilai = document.getElementById('nilai').value;
+            console.log(kriteria);
+            console.log(nilai);
+            $.ajax({
+                method:'GET',
+                url: "/filterInstrument/"+kriteria+"/"+nilai,
+                type:'json',
+                contentType: false,
+                processData: false,
+                success: (response) => {
+                    console.log(response);
+                    // if (response) {
+                    //     this.reset();
+                    //     swal("Sukses", "Dokumen berhasil di upload", "success");
+                    // }
+                },
+                error: function(response){
+                    // console.log("error");
+                    $('#file-input-error').text(response.responseJSON.message);
+                }
+           });
+        });
+    </script>
 @endsection

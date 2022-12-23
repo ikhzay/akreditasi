@@ -187,6 +187,19 @@ class InstrumentController extends Controller
         }
     }
 
+    public function filterInstrument($kriteria,$nilai){
+        $data = Instrument::where([
+            'kriteria_id'=>$kriteria,
+            'nilai' => $nilai
+        ])->get();
+        
+        return response()->json([
+            'status'=>'success',
+            'messages' => 'Fiter Of Instrument',
+            'data' => $data
+        ]);
+    }
+
     public function destroy(Request $request){
         $instrument = Instrument::findOrFail($request->id);
         $penilaian = Penilaian::where('instrument_id',$request->id)->get();
