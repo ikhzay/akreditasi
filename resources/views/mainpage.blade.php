@@ -11,9 +11,15 @@
     <link href={{ asset('css/style.css') }} rel="stylesheet">
     <link href={{ asset('css/custom.css') }} rel="stylesheet">
     <link href={{ asset('css/mycss.css') }} rel="stylesheet">
-
-
     <link rel="shortcut icon" type="image/png" href="https://pkl.if.unram.ac.id/assets/img/fav.png" sizes="16x16" />
+    <link href='https://fonts.googleapis.com/css?family=Lora:500,300' rel='stylesheet' type='text/css'>
+
+    <style>
+        .nn{
+            font-family: "Lora", sans-serif; 
+            font-size: 12px;
+        }
+    </style>
 </head>
 
 <body id="page-top" class="landing-page">
@@ -91,7 +97,7 @@
                                     </thead>
                                     <tbody style="font-size: 9px">
                                         @foreach ($item->instrument as $inst)
-                                        <tr class="gradeX" onclick="showModal({{$inst->id}})">
+                                        <tr class="nn gradeX" onclick="showModal({{$inst->id}})">
                                             <td>{{$inst->jenis}}</td>
                                             <td>{{$inst->no_urut}}</td>
                                             <td>{{$inst->no_butir}}</td>
@@ -239,11 +245,16 @@
             return false;
         }
 
-        $(document).ready(function(){
-            console.log("ini siap");
-            const nodes = element.getElementsByTagName("<td>");
-            console.log(nodes);
-        })
+        // $(document).ready(function(){
+        //     console.log("ini siap");
+        //     var nodes = document.getElementsByTagName("<td>");
+        //     console.log(nodes);
+        // })
+
+        // $(document).ready(function() {
+        //     alert($('table tr:nth-child(2) td:nth-child(2) a').attr('href'));
+        // });
+        
     </script>
 
     <script src={{ asset('js/jquery-2.1.1.js') }}></script>
