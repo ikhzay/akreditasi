@@ -12,6 +12,10 @@ class Instrument extends Model
     protected $table = 'ak_instrument';
     protected $with = ['penilaian'];
 
+    protected $guarded = [
+        'id'
+    ];
+
     public function penilaian(){
         return $this->hasMany(Penilaian::class);
     }

@@ -45,7 +45,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/edit_instrument/{id}', [InstrumentController::class, 'edit']);
     Route::post('/update_instrument', [InstrumentController::class, 'update']);
     Route::get('/filterInstrument/{kriteria}/{nilai}', [InstrumentController::class, 'filterInstrument']);
-    
+    Route::post('/import_instrument', [InstrumentController::class, 'importInstrument']);
+    // Route::post('import', function () {
+    //     Excel::import(new UsersImport, request()->file('file'));
+    //     return redirect()->back()->with('success','Data Imported Successfully');
+    // });
+
     Route::post('/uploadFile', [DokumenController::class, 'uploadFile']);
     Route::get('/openFile/{id}', [DokumenController::class, 'openFile']);
     Route::get('/getDocument/{id}', [DokumenController::class, 'getDocument']);

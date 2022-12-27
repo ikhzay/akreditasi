@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\InstrumentImport;
 use App\Models\Dokumen;
 use App\Models\Instrument;
 use App\Models\Kriteria;
 use App\Models\Penilaian;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use League\CommonMark\Node\Block\Document;
+use Maatwebsite\Excel\Exceptions\NoTypeDetectedException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InstrumentController extends Controller
 {
@@ -34,12 +38,7 @@ class InstrumentController extends Controller
         $instrument = Instrument::where('id',$request->id)->with('kriteria')->first();
         $kriteria = Kriteria::get();
         $document = Dokumen::where('instrument_id',$request->id)->get();
-        // return response()->json([
-        //     'instrument'=>$instrument,
-        //     'dataKriteria' => $kriteria,
-        //     'document' => $document,
-        //     'title' => $title
-        // ], 200);
+       
         return view('instrument.edit_instrument',[
             'instrument'=>$instrument,
             'dataKriteria' => $kriteria,
@@ -123,11 +122,7 @@ class InstrumentController extends Controller
             $penilaian->save();
         }
         return redirect('/instrument')->with('success', 'Data Berhasil Ditambah');
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'File Uploaded',
-        //     'data' => $data
-        // ], 200);
+        
     }
 
     public function update(Request $request){
@@ -187,6 +182,14 @@ class InstrumentController extends Controller
         }
     }
 
+    public function importInstrument(Request $request){
+        try {
+            Excel::import(new InstrumentImport, $request->file);
+        } catch (NoTypeDetectedException $e) {
+            return redirect()->back()->with('success','Data Imported Successfully');
+        }
+    }
+    
     public function filterInstrument($kriteria,$nilai){
         $data = Instrument::where([
             'kriteria_id'=>$kriteria,

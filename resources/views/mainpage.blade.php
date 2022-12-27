@@ -21,7 +21,6 @@
         }
     </style>
 </head>
-
 <body id="page-top" class="landing-page">
     <div class="navbar-wrapper">
         <nav class="navbar navbar-default navbar-fixed-top navbar-expand-md" role="navigation">
@@ -41,7 +40,6 @@
             </div>
         </nav>
     </div>
-
     <section class="container features">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -49,7 +47,6 @@
                 <h1><span class="mb-4" style="font-weight: bold; color:#29375B; "> Sistem Informasi Akreditasi PSTI</span> </h1>
             </div>
         </div>
-        
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
@@ -218,7 +215,7 @@
                 url : "{{url('getDocument')}}"+"/"+$id,
                 dataType : 'json',
                 success : function(data){
-                //         '<input class="form-control" type="text" id="nama_guru" value="'+data.data.nama_guru+'">';
+                    //'<input class="form-control" type="text" id="nama_guru" value="'+data.data.nama_guru+'">';
                 console.log(data.data.length);
                 for(i=0;i<data.data.length;i++){
                     tableData+=`
@@ -232,8 +229,9 @@
                         </tr>
                     `;
                 }
-                $('#dataDokumen').html(tableData);//menampilkan data ke dalam modal
-                // console.log(data);
+                $('#dataDokumen').html(tableData);
+                    //menampilkan data ke dalam modal
+                    // console.log(data);
                 }
             });
             //Mengambil data untuk diubah
@@ -243,18 +241,7 @@
             newWindow = window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
             if (window.focus) {newWindow.focus()}
             return false;
-        }
-
-        // $(document).ready(function(){
-        //     console.log("ini siap");
-        //     var nodes = document.getElementsByTagName("<td>");
-        //     console.log(nodes);
-        // })
-
-        // $(document).ready(function() {
-        //     alert($('table tr:nth-child(2) td:nth-child(2) a').attr('href'));
-        // });
-        
+        }        
     </script>
 
     <script src={{ asset('js/jquery-2.1.1.js') }}></script>

@@ -45,8 +45,7 @@
                         </form>
                     </div>
                     <div class="ibox-content" style=" min-height: calc(100vh - 244px); ">
-                        {{-- <button class="btn btn-lg btn-primary mb-3 mt-1" data-toggle="modal" data-target="#myModal"> Tambah
-                            Instrument</button> --}}
+                        <button class="btn btn-lg btn-primary mb-3 mt-1" data-toggle="modal" data-target="#uploadCSV"> Uplaod</button>
                         <a href="/tambah_instrument" class="btn btn-lg btn-primary mb-3 mt-1" >Tambah Instrument</a>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover dataTables-example">
@@ -197,7 +196,36 @@
             </div>
         </div>
     </div>
-
+    <!-- Modal -->
+    <div class="modal fade" id="uploadCSV" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import CSV</h5>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form action="import_instrument" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label>Kriteria</label>
+                        <select class="js-example-basic-single form-control" style="width: auto" name="kriteria_id" required>
+                            @foreach ($dataKriteria as $item)
+                                @if ($item->link == '')
+                                    <option value="{{ $item->id }}"> {{ $item->deskripsi }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="file" name="file" class="form-control">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
     <script>
         $('#form-filter').submit(function(e) {
             e.preventDefault();
