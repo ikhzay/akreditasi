@@ -209,7 +209,7 @@
                     @csrf
                     <div class="form-group">
                         <label>Kriteria</label>
-                        <select class="js-example-basic-single form-control" style="width: auto" name="kriteria_id" required>
+                        <select class="js-example-basic-single form-control" style="width: 100%" name="kriteria_id" required>
                             @foreach ($dataKriteria as $item)
                                 @if ($item->link == '')
                                     <option value="{{ $item->id }}"> {{ $item->deskripsi }}</option>
@@ -218,9 +218,11 @@
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="file" name="file" class="form-control">
-                        <button class="btn btn-primary" type="submit">Submit</button>
+                        {{-- <input type="file" name="file" class="form-control"> --}}
+                        {{-- <input type="text" name="file" class="form-control"> --}}
+                        <textarea name="file" id="" cols="30" rows="10" style="width: 100%"></textarea>
                     </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
                 </form>
             </div>
         </div>

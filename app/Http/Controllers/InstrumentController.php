@@ -80,10 +80,12 @@ class InstrumentController extends Controller
 
         $data->save();
         $instrument = Instrument::orderBy('created_at', 'DESC')->first();
-        foreach($request->id_dok as $dok){
-            $document = Dokumen::where('id',$dok)->first();
-            $document->instrument_id = $instrument->id;
-            $document->update();
+        if($request->id_dok != ''){
+            foreach($request->id_dok as $dok){
+                $document = Dokumen::where('id',$dok)->first();
+                $document->instrument_id = $instrument->id;
+                $document->update();
+            }
         }
         
         $pen = [
@@ -183,11 +185,67 @@ class InstrumentController extends Controller
     }
 
     public function importInstrument(Request $request){
-        try {
-            Excel::import(new InstrumentImport, $request->file);
-        } catch (NoTypeDetectedException $e) {
-            return redirect()->back()->with('success','Data Imported Successfully');
+        // return $request->kriteria_id;
+        $arr = explode("\r\n", $request->file);
+        // return $arr;
+        $data = new Instrument();
+        $data->kriteria_id = $request->kriteria_id;
+        $data->jenis = $arr[0];
+        $data->no_urut = $arr[1];
+        $data->no_butir = $arr[2];
+        $data->bobot = $arr[3];
+        $data->element = $arr[4];
+        $data->descriptor = $arr[5];
+        $data->nilai = $arr[10];
+        $data->skor = ($data->nilai/4)*$data->bobot;
+        // return $data;
+        $data->save();
+        $instrument = Instrument::orderBy('created_at', 'DESC')->first();
+        // if($request->id_dok != ''){
+        //     foreach($request->id_dok as $dok){
+        //         $document = Dokumen::where('id',$dok)->first();
+        //         $document->instrument_id = $instrument->id;
+        //         $document->update();
+        //     }
+        // }
+        
+        $pen = [
+            [
+                "instrument_id"=>$instrument->id,
+                "deskripsi"=>$arr[6],
+                "nilai"=>4,
+                "keterangan"=>"Sangat Baik"
+            ],
+            [
+                "instrument_id"=>$instrument->id,
+                "deskripsi"=>$arr[7],
+                "nilai"=>3,
+                "keterangan"=>"Baik"
+            ],
+            [
+                "instrument_id"=>$instrument->id,
+                "deskripsi"=>$arr[8],
+                "nilai"=>2,
+                "keterangan"=>"Cukup"
+            ],
+            [
+                "instrument_id"=>$instrument->id,
+                "deskripsi"=>$arr[9],
+                "nilai"=>1,
+                "keterangan"=>"Kurang"
+            ],
+        ];
+
+        foreach($pen as $p){
+            $penilaian = new Penilaian();
+            $penilaian->instrument_id = $p['instrument_id'];
+            $penilaian->deskripsi = $p['deskripsi'];
+            $penilaian->nilai = $p['nilai'];
+            $penilaian->keterangan = $p['keterangan'];
+            $penilaian->save();
         }
+        return redirect('/instrument')->with('success', 'Data Berhasil Ditambah');
+
     }
     
     public function filterInstrument($kriteria,$nilai){

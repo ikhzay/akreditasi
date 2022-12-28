@@ -4,8 +4,6 @@ namespace App\Imports;
 
 use App\Models\Instrument;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class InstrumentImport implements ToModel
 {
@@ -18,14 +16,14 @@ class InstrumentImport implements ToModel
     {
         $skor = (($row[8])/4)*$row[5];
         return new Instrument([
-            "jenis" => $row[2],
-            "no_urut" => $row[3],
-            "no_butir" => $row[4],
-            "bobot" => $row[5],
-            "element" => "<p>".$row[6]."</p>",
-            "descriptor" => "<p>".$row[7]."</p>",
-            "nilai" => $row[8],
-            "skor" => $skor,
+            "jenis" => $row[1],
+            "no_urut" => $row[2],
+            "no_butir" => $row[3],
+            "bobot" => $row[4],
+            "element" => "<p>".$row[5]."</p>",
+            "descriptor" => "<p>".$row[6]."</p>",
+            "nilai" => $row[7],
+            "skor" => $skor
         ]);
     }
 
