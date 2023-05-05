@@ -220,7 +220,7 @@
         });
           
         function openFile(tes){
-            newWindow = window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
+            newWindow = window.open("{{ url('/storage') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
             if (window.focus) {newWindow.focus()}
             return false;
         }
@@ -231,24 +231,32 @@
         });
         
         //Hapus Data
-        function hapus($id){
-            console.log('ini mau ngapus id '+$id);
-            var url = "{{url('hapusFile')}}"+"/"+$id;
-            $.ajax({
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: url,
-                method: 'DELETE',
-                success:function(xhr, ajaxOptions, thrownError){
-                    $("#"+$id).remove();
-                    // $(this).closest('tr[id]').remove();
-                    console.log("ini id :"+$id);
-                    swal('Berhasil', 'Data Terhapus', 'success');
-                    
-                },
-                error: function() {
-                }
+        function hapus($id) {
+            var url = "/hapusFile";
+            swal({
+                title: "Apakah anda yakin ?",
+                text: "Tekan Ya untuk menghapus data!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Ya, hapus!",
+                closeOnConfirm: false
+            }, function() {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        id : $id
+                    },
+                    success: function(xhr, ajaxOptions, thrownError) {
+                        $("#" + $id).remove();
+                    },
+                    error: function() {}
+                });
+                swal("Deleted!", "Data berhasil dihapus.", "success");
             });
             return false;
         }

@@ -2,7 +2,14 @@
 
 @section('content')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href='https://fonts.googleapis.com/css?family=Lora:400,300' rel='stylesheet' type='text/css'>
 
+    <style>
+        .nn{
+            font-family: "Lora", sans-serif; 
+            font-size: 12px;
+        }
+    </style>
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>Instrument</h2>
@@ -30,17 +37,34 @@
                         <form id="form-filter" role="form">
                             @csrf
                             <div class="form-row align-items-center">
-                              <div class="col-auto">
-                                <label class="sr-only" for="kriteria">Kriteria</label>
-                                <input type="text" class="form-control mb-2" id="kriteria" placeholder="Kriteria">
-                              </div>
-                              <div class="col-auto">
-                                <label class="sr-only" for="nilai">Nilai</label>
-                                <input type="text" class="form-control mb-2" id="nilai" placeholder="Nilai">
-                              </div>
-                              <div class="col-auto">
-                                <button type="submit" class="btn btn-success mb-2" id="">Filter</button>
-                              </div>
+                                <div class="col-auto">
+                                    <label class="sr-only" for="kriteria">Kriteria</label>
+                                    {{-- <input type="text" class="form-control mb-2" id="kriteria" placeholder="Kriteria"> --}}
+                                    <select class="form-control mb-2" style="width: 10em" name="kriteria_id" id="kriteria_id">
+                                        @foreach ($dataKriteria as $item)
+                                            @if ($item->link == '')
+                                                <option value="{{ $item->id }}"> {{ $item->deskripsi }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <label class="sr-only" for="nilai">Nilai</label>
+                                    {{-- <input type="text" class="form-control mb-2" id="nilai" placeholder="Nilai"> --}}
+                                    <select class="form-control mb-2" style="width: 10em" name="nilai" id="nilai">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <label class="sr-only" for="no_urut">No Urut</label>
+                                    <input type="text" class="form-control mb-2" id="no_urut" placeholder="No Urut">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-success mb-2" id="">Filter</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -64,14 +88,14 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $item)
-                                        <tr>
+                                        <tr class="nn">
                                             {{-- <td class="text-center">{{ $loop->iteration }}</td> --}}
                                             <td class="text-center">{{ $item->no_urut }}</td>
                                             <td class="text-center">{{ $item->jenis }}</td>
                                             <td class="text-center">{{ $item->no_butir }}</td>
                                             <td class="text-center">{{ $item->bobot }}</td>
-                                            <td class="text-center">{!!$item->element!!}</td>
-                                            <td class="text-center">{!!$item->descriptor!!}</td>
+                                            <td class="text-left">{!!$item->element!!}</td>
+                                            <td class="text-left">{!!$item->descriptor!!}</td>
                                             <td class="text-center">{{$item->nilai}}</td>
                                             {{-- <td class="text-center">
                                                 <a href="{{ $item->link }}" target="_blank"> {{ $item->link }} </a>
@@ -218,8 +242,6 @@
                         </select>
                     </div>
                     <div class="input-group mb-3">
-                        {{-- <input type="file" name="file" class="form-control"> --}}
-                        {{-- <input type="text" name="file" class="form-control"> --}}
                         <textarea name="file" id="" cols="30" rows="10" style="width: 100%"></textarea>
                     </div>
                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -231,25 +253,21 @@
     <script>
         $('#form-filter').submit(function(e) {
             e.preventDefault();
-            var kriteria = document.getElementById('kriteria').value;
+            var kriteria = document.getElementById('kriteria_id').value;
             var nilai = document.getElementById('nilai').value;
+            var no_urut = document.getElementById('no_urut').value;
             console.log(kriteria);
             console.log(nilai);
             $.ajax({
                 method:'GET',
-                url: "/filterInstrument/"+kriteria+"/"+nilai,
+                url: "/filterInstrument/"+kriteria+"/"+nilai+"/"+no_urut,
                 type:'json',
                 contentType: false,
                 processData: false,
                 success: (response) => {
                     console.log(response);
-                    // if (response) {
-                    //     this.reset();
-                    //     swal("Sukses", "Dokumen berhasil di upload", "success");
-                    // }
                 },
                 error: function(response){
-                    // console.log("error");
                     $('#file-input-error').text(response.responseJSON.message);
                 }
            });

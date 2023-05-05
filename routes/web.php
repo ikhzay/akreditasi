@@ -7,6 +7,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubMenuController;
 use App\Http\Controllers\KriteriaController;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/hapus_instrument', [InstrumentController::class, 'destroy']);
     Route::get('/edit_instrument/{id}', [InstrumentController::class, 'edit']);
     Route::post('/update_instrument', [InstrumentController::class, 'update']);
-    Route::get('/filterInstrument/{kriteria}/{nilai}', [InstrumentController::class, 'filterInstrument']);
+    Route::get('/filterInstrument/{kriteria}/{nilai}/{no_urut}', [InstrumentController::class, 'filterInstrument']);
     Route::post('/import_instrument', [InstrumentController::class, 'importInstrument']);
     // Route::post('import', function () {
     //     Excel::import(new UsersImport, request()->file('file'));
@@ -54,7 +55,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/uploadFile', [DokumenController::class, 'uploadFile']);
     Route::get('/openFile/{id}', [DokumenController::class, 'openFile']);
     Route::get('/getDocument/{id}', [DokumenController::class, 'getDocument']);
-    Route::delete('/hapusFile/{id}', [DokumenController::class, 'destroy']);
+    // Route::delete('/hapusFile/{id}', [DokumenController::class, 'destroy']);
+    Route::post('/hapusFile', [DokumenController::class, 'destroy']);
 
     Route::post('/logout', [UserController::class, 'logout']);
 });
@@ -67,8 +69,9 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login', [UserController::class, 'login']);
 });
 
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
 Route::get('/', [UserController::class, 'mainpage']);
-// Route::get('/', function(){
-//     return view('welcome');
-// }
-// );
+Route::get('/ss', [UserController::class, 'ss']);

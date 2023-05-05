@@ -28,23 +28,41 @@ class DokumenController extends Controller
         // return "OK";
         $request->validate([
             'keterangan' =>'required',
-            'file' => 'required|mimes:doc,docx,pdf,zip,rar|max:2048',
+            'file' => 'mimes:doc,docx,pdf,zip,rar|max:2048',
         ]);
         
-        $fileName = time().'.'.$request->file->extension();  
+        if ($request->file ==null){
+            $fileName = null;  
             
-        $request->file->move(public_path('file'), $fileName);
-      
-        $data = Dokumen::create(['nama' => $fileName,'keterangan' => $request->keterangan]);
-        return response()->json([
-            'status' => 'success',
-            'message' => 'File Uploaded',
-            'data' => $data
-        ], 200);
+            // $request->file->move(public_path('file'), $fileName);
+            // $request->file('file')->storeAs('public', $fileName);
+        
+            $data = Dokumen::create(['nama' => $fileName,'keterangan' => $request->keterangan]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'File Uploaded',
+                'data' => $data
+            ], 200);
+        }else{
+            $fileName = 'fileDocument/'.time().'.'.$request->file->extension();  
+            
+            // $request->file->move(public_path('file'), $fileName);
+            $request->file('file')->storeAs('public', $fileName);
+        
+            $data = Dokumen::create(['nama' => $fileName,'keterangan' => $request->keterangan]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'File Uploaded',
+                'data' => $data
+            ], 200);
+        }
+
+
+        
     }
 
-    public function destroy($id){
-        $data = Dokumen::findOrFail($id);
+    public function destroy(Request $request){
+        $data = Dokumen::findOrFail($request->id);
         $data->delete();
         return response()->json([
             'status' => 'success',
@@ -52,5 +70,4 @@ class DokumenController extends Controller
             'data' => null
         ], 201);
     }
-  
 }

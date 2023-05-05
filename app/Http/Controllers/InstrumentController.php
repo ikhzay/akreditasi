@@ -248,12 +248,26 @@ class InstrumentController extends Controller
 
     }
     
-    public function filterInstrument($kriteria,$nilai){
-        $data = Instrument::where([
-            'kriteria_id'=>$kriteria,
-            'nilai' => $nilai
-        ])->get();
-        
+    public function filterInstrument($kriteria,$nilai,$no_urut){
+        if ($kriteria == ''){
+            $data = Instrument::where([
+                'nilai' => $nilai,
+                'no_urut' => $no_urut
+            ])->get();
+        }
+        else if ($nilai == ''){
+            $data = Instrument::where([
+                'kriteria_id' => $kriteria,
+                'no_urut' => $no_urut
+            ])->get();
+        }
+        else if ($nilai == ''){
+            $data = Instrument::where([
+                'kriteria_id' => $kriteria,
+                'nilai' => $nilai,
+                'no_urut' => $no_urut
+            ])->get();
+        }
         return response()->json([
             'status'=>'success',
             'messages' => 'Fiter Of Instrument',

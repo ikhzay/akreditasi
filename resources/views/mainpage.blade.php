@@ -52,23 +52,11 @@
                 <div class="col-lg-12">
                     @foreach ($data as $item)
                     <div class="ibox mb-0">
-                        <div class="ibox-title">
+                        <div class=" ibox-title">
                             <h5>Kriteria {{$item->kriteria}} {{$item->deskripsi}}</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
+                                    <i class="fa fa-chevron-down"></i>
                                 </a>
                             </div>
                         </div>
@@ -99,7 +87,13 @@
                                             <td>{{$inst->no_urut}}</td>
                                             <td>{{$inst->no_butir}}</td>
                                             <td>{{$inst->bobot}}</td>
-                                            <td>{!!$inst->element!!}</td>
+                                            <td>
+                                                {!!$inst->element!!}
+                                                <button class="btn btn-success" type="button" onclick="showModal({{$inst->id}})">
+                                                    Dokumen
+                                                    <i class="fa fa-file" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
                                             <td>{!!$inst->descriptor!!}</td>
                                             <td>{!!$inst->penilaian[0]->deskripsi!!}</td>
                                             <td>{!!$inst->penilaian[1]->deskripsi!!}</td>
@@ -238,7 +232,7 @@
         }
 
         function openFile(tes){
-            newWindow = window.open("{{ url('/file') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
+            newWindow = window.open("{{ url('/storage') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
             if (window.focus) {newWindow.focus()}
             return false;
         }        
@@ -257,7 +251,7 @@
 
     <script src={{ asset('js/myjs.js') }}></script>
     <script src={{ asset('js/beranda.js') }}></script>
-
+    
 
 </body>
 

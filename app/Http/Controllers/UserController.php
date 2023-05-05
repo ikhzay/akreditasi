@@ -6,12 +6,49 @@ use App\Models\Instrument;
 use App\Models\Kriteria;
 use App\Models\Menu;
 use App\Models\SubMenu;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function ss(){
+        $client = new Client();
+        $response = $client->request('GET', 'https://prasarana.unram.ac.id/index.php/api/sia/ruang?number=-1&__csrf=P25sigHhPqKyeo');
+        $data = $response->getBody()->getContents();
+        $data = json_decode($data);
+        
+        $kode = [];
+        $f_nama = [];
+        foreach($data as $dd){
+            array_push($kode, $dd->fakultas_kode);
+            array_push($f_nama, $dd->_fakultas_nama);
+        }
+
+        $u_kode = array_unique($kode);
+        $u_nama = array_unique($f_nama);
+        $kk = [];
+        $nm = [];
+        foreach($u_kode as $k){
+            array_push($kk,$k);
+        }
+
+        foreach($u_nama as $n){
+            array_push($nm,$n);
+        }
+
+        $jml_arr = count($nm);
+        $object = [];
+        for($i=0 ; $i<$jml_arr ; $i++){
+            $object[] = (object) [
+                'kode' => $kk[$i],
+                'nama' => $nm[$i],
+              ];
+        }
+        return $object;
+    }
+
     public function index()
     {
         $dataMenu = Menu::all();
@@ -33,7 +70,7 @@ class UserController extends Controller
         // ], 200);
          
         return view('mainpage',[
-            'title' => 'Main Page',
+            'title' => 'PSTI',
             'data' => $data
         ]);
     }
