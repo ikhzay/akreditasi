@@ -197,7 +197,7 @@
 
                         <div class="form-group">
                             <label>Keterangan</label>
-                            <input class="form-control" type="text" id="keterangan" name="keterangan" value="tes"
+                            <input class="form-control" type="text" id="keterangan" name="keterangan" 
                                 autocomplete="off">
                         </div>
                         <span class="text-danger" id="file-input-error"></span>
