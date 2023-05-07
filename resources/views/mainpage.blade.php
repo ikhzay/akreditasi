@@ -232,7 +232,7 @@
         }
 
         function openFile(tes){
-            newWindow = window.open("{{ url('/storage') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
+            newWindow = window.open("{{ url('/storage/fileDocument') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
             if (window.focus) {newWindow.focus()}
             return false;
         }        

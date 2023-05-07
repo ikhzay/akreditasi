@@ -19,27 +19,28 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/profil',  [UserController::class, 'tampil_profil']);
 
-    
-    Route::get('/menu',[MenuController::class,'list_menu']);
+
+    Route::get('/menu', [MenuController::class, 'list_menu']);
     Route::post('/tambah_menu', [MenuController::class, 'tambah_menu']);
     Route::post('/edit_menu', [MenuController::class, 'edit_menu']);
     Route::post('/hapus_menu', [MenuController::class, 'hapus_menu']);
 
 
-    Route::get('/submenu',[SubMenuController::class,'list_submenu']);
+    Route::get('/submenu', [SubMenuController::class, 'list_submenu']);
     Route::post('/tambah_submenu', [SubMenuController::class, 'tambah_submenu']);
     Route::post('/hapus_submenu', [SubMenuController::class, 'hapus_submenu']);
     Route::post('/edit_submenu', [SubMenuController::class, 'edit_submenu']);
 
-    Route::get('/kriteria',[KriteriaController::class,'index']);
+    Route::get('/kriteria', [KriteriaController::class, 'index']);
     Route::post('/tambah_kriteria', [KriteriaController::class, 'store']);
     Route::post('/hapus_kriteria', [KriteriaController::class, 'destroy']);
     Route::post('/edit_kriteria', [KriteriaController::class, 'update']);
 
-    Route::get('/instrument',[InstrumentController::class,'index']);
+    Route::get('/instrument', [InstrumentController::class, 'index']);
     Route::get('/tambah_instrument', [InstrumentController::class, 'add']);
     Route::post('/tambah_instrument', [InstrumentController::class, 'store']);
     Route::post('/hapus_instrument', [InstrumentController::class, 'destroy']);
@@ -53,8 +54,10 @@ Route::group(['middleware' => 'auth'], function () {
     // });
 
     Route::post('/uploadFile', [DokumenController::class, 'uploadFile']);
+    // Route::post('/uploadFileEdit', [DokumenController::class, 'uploadFileEdit']);
     Route::get('/openFile/{id}', [DokumenController::class, 'openFile']);
     Route::get('/getDocument/{id}', [DokumenController::class, 'getDocument']);
+    Route::get('/get/{id}', [DokumenController::class, 'get']);
     // Route::delete('/hapusFile/{id}', [DokumenController::class, 'destroy']);
     Route::post('/hapusFile', [DokumenController::class, 'destroy']);
 
@@ -75,3 +78,4 @@ Route::get('/linkstorage', function () {
 
 Route::get('/', [UserController::class, 'mainpage']);
 Route::get('/ss', [UserController::class, 'ss']);
+Route::post('/uploadFileEdit', [DokumenController::class, 'uploadFileEdit']);

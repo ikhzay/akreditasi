@@ -78,24 +78,30 @@
                                 <label>Dokumen</label><br>
                                 <button class="btn btn-lg btn-primary mb-3 mt-1" type="button"
                                     onclick="showTambahDokumen()"><i class="fa fa-plus"></i></button>
-                                <table class="table table-striped table-bordered table-hover" id="tabelDokumen">
+                                <table class="table table-bordered table-hover" id="tabelDokumen">
                                     <thead>
                                         <tr>
+                                            {{-- <th class="text-center">No</th> --}}
                                             <th class="text-center">Nama Dokumen</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($document as $doc)
+                                            
                                             <tr id="{{ $doc->id }}">
-                                                <td>{{ $doc->keterangan }}</td>
-                                                <td>
-                                                    <a class="btn btn-sm btn-danger ml-2 text-white"
-                                                        onclick="hapus({{ $doc->id }})"><i class="fa fa-trash"></i>
-                                                        Hapus</a>
-                                                    <a class="btn btn-sm btn-info ml-2 text-white"
-                                                        onclick="openFile('{{ $doc->nama }}')"><i class="fa fa-eye"></i>
-                                                        Lihat</a>
+                                                {{-- <td>{{ $doc->keterangan }}</td> --}}
+                                                <td class="text-center">{{ $doc->keterangan }}</td>
+                                                <td class="text-center">
+                                                    <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('{{ $doc->nama }}')">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <a class="btn btn-sm btn-warning ml-2 text-white" onclick="edit({{ $doc->id }})">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus({{ $doc->id }})">
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -192,19 +198,20 @@
                         <div class="form-group">
                             <label>Dokumen</label>
                             {{-- <input class="form-control" type="file" id="inputFile" name="file" required autocomplete="off"> --}}
-                            <input class="form-control" type="file" id="inputFile" name="file" autocomplete="off">
+                            <input class="form-control" type="text" id="id-file-edit" name="id_edit" autocomplete="off" hidden>
+                            <input class="form-control" type="file" id="inputFile-edit" name="file_edit" autocomplete="off">
                         </div>
 
                         <div class="form-group">
                             <label>Keterangan</label>
-                            <input class="form-control" type="text" id="keterangan" name="keterangan" 
+                            <input class="form-control" type="text" id="keterangan-edit" name="keterangan_edit" 
                                 autocomplete="off">
                         </div>
                         <span class="text-danger" id="file-input-error"></span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="simpan">Upload</button>
+                    <button type="submit" class="btn btn-primary" id="simpan">Simpan</button>
                     </form>
                 </div>
             </div>
@@ -217,16 +224,12 @@
             $('#tambahDokumen').modal('show');
         }
 
-        function showEditDokumen() {
-            $('#editDokumen').modal('show');
-        }
-
-
         var no = 0;
         var dataDokumen = [];
         var fm;
         // UPLOAD FILE BARU
         $('#file-upload').submit(function(e) {
+           
             e.preventDefault();
             let formData = new FormData(this);
             console.log(formData);
@@ -245,8 +248,10 @@
                         // var t = $('#tabelDokumen');
                         // t.row.add(1,response.data.keterangan,'tes');
                         dataDokumen.push(response);
-                        // console.log(dataDokumen);
+                        // console.log("dataDokumen "+JSON.stringify(dataDokumen));
+                        // console.log("INDEX Dokumen "+dataDokumen.map(object => object.data.id).indexOf(response.data.id));
                         var t = document.getElementById("tabelDokumen");
+
                         var r = document.createElement("TR");
                         for (i = 0; i < dataDokumen.length; i++) {
                             r.setAttribute('id', dataDokumen[i].data.id);
@@ -257,14 +262,17 @@
                                                     <input class="form-control" type="hidden" name="id_dok[]" value="` +
                                 dataDokumen[i].data.id + `" autocomplete="off">
                                                     <!--<td>` + (i + 1) + `</td>-->
-                                                    <td>` + dataDokumen[i].data.keterangan +
+                                                    <td class="text-center">` + dataDokumen[i].data.keterangan +
                                 `</td>
-                                                    <td>
-                                                        <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus(` + dataDokumen[i].data.id +
-                                `)"><i
-                                                                class="fa fa-trash"></i> Hapus</a>
-                                                        <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')"><i
-                                                                class="fa fa-trash"></i> Lihat</a>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')">
+                                                            <i class="fa fa-eye"></i></a>
+                                                        <a class="btn btn-sm btn-warning ml-2 text-white" onclick="edit(`+ dataDokumen[i].data.id +`)">
+                                                            <i class="fa fa-edit"></i>
+                                                        <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus(` + dataDokumen[i].data.id +`)">
+                                                            <i class="fa fa-trash"></i></a>
+                                                    </a>
+                                                        
                                                     </td>
                                                
                                             `;
@@ -281,54 +289,65 @@
             });
         });
 
-        //EDIT FILE UPLOAD
+
+        //SIMPAN EDIT FILE
         $('#file-upload-edit').submit(function(e) {
+            console.log("okeh");
             e.preventDefault();
             let formData = new FormData(this);
             console.log(formData);
-            $('#file-input-error').text('');
+            // $('#file-input-error').text('');
             fm += formData;
+            console.log(fm);
             $.ajax({
                 type: 'POST',
                 url: "{{ url('uploadFileEdit') }}",
                 data: formData,
                 contentType: false,
                 processData: false,
+                // success: function(response){
+                //     console.log(response);
+                // }
                 success: (response) => {
                     if (response) {
                         this.reset();
                         $('#editDokumen').modal('hide');
                         // var t = $('#tabelDokumen');
                         // t.row.add(1,response.data.keterangan,'tes');
-                        dataDokumen.push(response);
-                        // console.log(dataDokumen);
+                        let indexData = dataDokumen.map(object => object.data.id).indexOf(response.data.id);
+                        dataDokumen.splice(indexData,1,response);
+                        // console.log("dataDokument"+dataDokumen);
+                        document.getElementById(response.data.id).remove();
                         var t = document.getElementById("tabelDokumen");
                         var r = document.createElement("TR");
                         for (i = 0; i < dataDokumen.length; i++) {
+
                             r.setAttribute('id', dataDokumen[i].data.id);
                             console.log(dataDokumen[i].data.keterangan);
                             r.innerHTML =
-                                `   
-                                                
-                                                    <input class="form-control" type="hidden" name="id_dok[]" value="` +
-                                dataDokumen[i].data.id + `" autocomplete="off">
-                                                    <!--<td>` + (i + 1) + `</td>-->
-                                                    <td>` + dataDokumen[i].data.keterangan +
+                                `          
+                                <input class="form-control" type="hidden" name="id_dok[]" value="` +
+                                        dataDokumen[i].data.id + `" autocomplete="off">
+                                <!--<td>` + (i + 1) + `</td>-->
+                                    <td class="text-center">` + dataDokumen[i].data.keterangan +
                                 `</td>
-                                                    <td>
-                                                        <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus(` + dataDokumen[i].data.id +
-                                `)"><i
-                                                                class="fa fa-trash"></i> Hapus</a>
-                                                        <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')"><i
-                                                                class="fa fa-trash"></i> Lihat</a>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')">
+                                                            <i class="fa fa-eye"></i></a>
+                                                        <a class="btn btn-sm btn-warning ml-2 text-white" onclick="edit(`+ dataDokumen[i].data.id +`)">
+                                                            <i class="fa fa-edit"></i>
+                                                        <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus(` + dataDokumen[i].data.id +`)">
+                                                            <i class="fa fa-trash"></i></a>
+                                                    </a>
+                                                        
                                                     </td>
-                                               
-                                            `;
+                                `;
                             t.tBodies[0].appendChild(r);
                         }
                         // r.innerHTML =''
                         swal("Sukses", "Dokumen berhasil di upload", "success");
                     }
+                    console.log(response);
                 },
                 error: function(response) {
                     // console.log("error");
@@ -337,22 +356,25 @@
             });
         });
 
-        function openFile(tes) {
-            if (tes==''){
-                // console.log("ini null");
-                showEditDokumen();
-            }else{
-                // console.log("ini ada");
-                newWindow = window.open("{{ url('/storage') }}" + "/" + tes, "Window",
-                    "status=1,toolbar=1,width=500,height=300,resizable=yes");
-                if (window.focus) {
-                    newWindow.focus()
+        //GET DATA
+        function edit($idFile) {
+            // var url="/get";
+            $.ajax({
+                type: "GET",
+                url: "{{ url('get') }}"+"/"+$idFile,
+                data: "check",
+                success: function(response){
+                    console.log(response);
+                    document.getElementById("id-file-edit").value = response.data.id;
+                    // document.getElementById("inputFile-edit").value = response.data.keterangan;
+                    document.getElementById("keterangan-edit").value = response.data.keterangan;
+                    $('#editDokumen').modal('show');
                 }
-                return false;
-            }
+            });
+
         }
 
-        //Hapus Data
+        //HAPUS DATA
         function hapus($id) {
             var url = "/hapusFile";
             swal({
@@ -381,6 +403,21 @@
                 swal("Deleted!", "Data berhasil dihapus.", "success");
             });
             return false;
+        }
+
+        function openFile(tes) {
+            if (tes==''){
+                // console.log("ini null");
+                showEditDokumen();
+            }else{
+                // console.log("ini ada");
+                newWindow = window.open("{{ url('/storage') }}" + "/fileDocument/" + tes, "Window",
+                    "status=1,toolbar=1,width=500,height=300,resizable=yes");
+                if (window.focus) {
+                    newWindow.focus()
+                }
+                return false;
+            }
         }
     </script>
 @endsection
