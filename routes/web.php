@@ -54,7 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     // });
 
     Route::post('/uploadFile', [DokumenController::class, 'uploadFile']);
-    // Route::post('/uploadFileEdit', [DokumenController::class, 'uploadFileEdit']);
+    Route::post('/uploadFileEdit', [DokumenController::class, 'uploadFileEdit']);
     Route::get('/openFile/{id}', [DokumenController::class, 'openFile']);
     Route::get('/getDocument/{id}', [DokumenController::class, 'getDocument']);
     Route::get('/get/{id}', [DokumenController::class, 'get']);
@@ -78,4 +78,4 @@ Route::get('/linkstorage', function () {
 
 Route::get('/', [UserController::class, 'mainpage']);
 Route::get('/ss', [UserController::class, 'ss']);
-Route::post('/uploadFileEdit', [DokumenController::class, 'uploadFileEdit']);
+// Route::post('/uploadFileEdit', [DokumenController::class, 'uploadFileEdit']);
