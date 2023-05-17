@@ -42,7 +42,11 @@ class DokumenController extends Controller
 
         $data = new Dokumen;
         if ($request->file == null) {
-            $fileName = null;
+            if ($request->link != null) {
+                $fileName = $request->link;
+            } else {
+                $fileName = null;
+            }
 
             // $request->file->move(public_path('file'), $fileName);
             // $request->file('file')->storeAs('public', $fileName);
@@ -86,11 +90,18 @@ class DokumenController extends Controller
 
         // return $data;
         if ($request->file_edit == null) {
-            if ($data->nama == null) {
+            // if ($data->nama == null) {
+            if ($request->link_edit != null) {
+                if ($data->nama != null) {
+                    Storage::delete('public/fileDocument/' . $data->nama);
+                }
+                $fileName = $request->link_edit;
+            } else {
                 $fileName = null;
-                $data->nama = $fileName;
             }
+            // }
 
+            $data->nama = $fileName;
             $data->keterangan = $request->keterangan_edit;
             $data->update();
         } else {

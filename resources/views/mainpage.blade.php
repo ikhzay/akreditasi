@@ -232,8 +232,17 @@
         }
 
         function openFile(tes){
-            newWindow = window.open("{{ url('/storage/fileDocument') }}"+"/"+tes, "Window","status=1,toolbar=1,width=500,height=300,resizable=yes");
-            if (window.focus) {newWindow.focus()}
+            var tarea = tes;
+            if (tarea.indexOf("http://") == 0 || tarea.indexOf("https://") == 0) {
+                newWindow = window.open(tes, "Window", "status=1,toolbar=1,width=500,height=300,resizable=yes");
+            }else{
+                newWindow = window.open("{{ url('/storage') }}" + "/fileDocument/" + tes, "Window", "status=1,toolbar=1,width=500,height=300,resizable=yes");
+            }
+
+            
+            if (window.focus) {
+                newWindow.focus()
+            }
             return false;
         }        
     </script>

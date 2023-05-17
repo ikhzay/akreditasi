@@ -167,7 +167,11 @@
                             {{-- <input class="form-control" type="file" id="inputFile" name="file" required autocomplete="off"> --}}
                             <input class="form-control" type="file" id="inputFile" name="file" autocomplete="off">
                         </div>
-
+                        <div class="form-group">
+                            <label>Link</label>
+                            {{-- <input class="form-control" type="file" id="inputFile" name="file" required autocomplete="off"> --}}
+                            <input class="form-control" type="text" id="link" name="link" autocomplete="off">
+                        </div>
                         <div class="form-group">
                             <label>Keterangan</label>
                             <input class="form-control" type="text" id="keterangan" name="keterangan"
@@ -201,7 +205,11 @@
                             <input class="form-control" type="text" id="id-file-edit" name="id_edit" autocomplete="off" hidden>
                             <input class="form-control" type="file" id="inputFile-edit" name="file_edit" autocomplete="off">
                         </div>
-
+                        <div class="form-group">
+                            <label>Link</label>
+                            <input class="form-control" type="text" id="link-edit" name="link_edit" 
+                                autocomplete="off">
+                        </div>
                         <div class="form-group">
                             <label>Keterangan</label>
                             <input class="form-control" type="text" id="keterangan-edit" name="keterangan_edit" 
@@ -366,7 +374,7 @@
                 success: function(response){
                     console.log(response);
                     document.getElementById("id-file-edit").value = response.data.id;
-                    // document.getElementById("inputFile-edit").value = response.data.keterangan;
+                    document.getElementById("link-edit").value = response.data.nama;
                     document.getElementById("keterangan-edit").value = response.data.keterangan;
                     $('#editDokumen').modal('show');
                 }
@@ -406,18 +414,20 @@
         }
 
         function openFile(tes) {
-            if (tes==''){
-                // console.log("ini null");
-                showEditDokumen();
+         
+            // console.log("ini ada");
+            var tarea = tes;
+            if (tarea.indexOf("http://") == 0 || tarea.indexOf("https://") == 0) {
+                newWindow = window.open(tes, "Window", "status=1,toolbar=1,width=500,height=300,resizable=yes");
             }else{
-                // console.log("ini ada");
-                newWindow = window.open("{{ url('/storage') }}" + "/fileDocument/" + tes, "Window",
-                    "status=1,toolbar=1,width=500,height=300,resizable=yes");
-                if (window.focus) {
-                    newWindow.focus()
-                }
-                return false;
+                newWindow = window.open("{{ url('/storage') }}" + "/fileDocument/" + tes, "Window", "status=1,toolbar=1,width=500,height=300,resizable=yes");
             }
+
+            if (window.focus) {
+                newWindow.focus()
+            }
+            return false;
+      
         }
     </script>
 @endsection
