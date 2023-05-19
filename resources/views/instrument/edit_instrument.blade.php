@@ -263,7 +263,17 @@
                         var r = document.createElement("TR");
                         for (i = 0; i < dataDokumen.length; i++) {
                             r.setAttribute('id', dataDokumen[i].data.id);
-                            console.log(dataDokumen[i].data.keterangan);
+                            console.log(dataDokumen[i].data.nama);
+
+                            content = '';
+                            if (dataDokumen[i].data.nama == null){
+                                content = `<a hidden class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')">
+                                                            <i class="fa fa-eye"></i></a>`;
+                            }else{
+                                content = `<a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')">
+                                                            <i class="fa fa-eye"></i></a>`;
+                            }
+
                             r.innerHTML =
                                 `   
                                                 
@@ -273,8 +283,7 @@
                                                     <td class="text-center">` + dataDokumen[i].data.keterangan +
                                 `</td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-sm btn-info ml-2 text-white" @if ($doc->nama == null) hidden @endif onclick="openFile('` + dataDokumen[i].data.nama + `')">
-                                                            <i class="fa fa-eye"></i></a>
+                                                        `+content+`
                                                         <a class="btn btn-sm btn-warning ml-2 text-white" onclick="edit(`+ dataDokumen[i].data.id +`)">
                                                             <i class="fa fa-edit"></i>
                                                         <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus(` + dataDokumen[i].data.id +`)">
@@ -331,7 +340,19 @@
                         for (i = 0; i < dataDokumen.length; i++) {
 
                             r.setAttribute('id', dataDokumen[i].data.id);
-                            console.log(dataDokumen[i].data.keterangan);
+                            // console.log(dataDokumen[i].data.keterangan);
+
+                            console.log(dataDokumen[i].data.nama);
+
+                            contentEdit = '';
+                            if (dataDokumen[i].data.nama == null){
+                                contentEdit = `<a hidden class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')">
+                                                            <i class="fa fa-eye"></i></a>`;
+                            }else{
+                                contentEdit = `<a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')">
+                                                            <i class="fa fa-eye"></i></a>`;
+                            }
+
                             r.innerHTML =
                                 `          
                                 <input class="form-control" type="hidden" name="id_dok[]" value="` +
@@ -340,8 +361,7 @@
                                     <td class="text-center">` + dataDokumen[i].data.keterangan +
                                 `</td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-sm btn-info ml-2 text-white" @if ($doc->nama == null) hidden @endif onclick="openFile('` + dataDokumen[i].data.nama + `')">
-                                                            <i class="fa fa-eye"></i></a>
+                                                       `+contentEdit+`
                                                         <a class="btn btn-sm btn-warning ml-2 text-white" onclick="edit(`+ dataDokumen[i].data.id +`)">
                                                             <i class="fa fa-edit"></i>
                                                         <a class="btn btn-sm btn-danger ml-2 text-white" onclick="hapus(` + dataDokumen[i].data.id +`)">
