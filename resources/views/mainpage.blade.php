@@ -212,13 +212,20 @@
                     //'<input class="form-control" type="text" id="nama_guru" value="'+data.data.nama_guru+'">';
                 console.log(data.data.length);
                 for(i=0;i<data.data.length;i++){
+
+                    content = '';
+                    if(data.data[i].nama == null){
+                        content = `<a hidden class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('`+data.data[i].nama+`')"><i class="fa fa-eye"></i> Lihat</a>`;    
+                    } else {
+                        content = `<a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('`+data.data[i].nama+`')"><i class="fa fa-eye"></i> Lihat</a>`;    
+                    }
+
                     tableData+=`
                         <tr>
                             <th scope="row">`+(i+1)+`</th>
                             <td>`+data.data[i].keterangan+`</td>
                             <td>
-                                <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('`+data.data[i].nama+`')"><i
-                                                                class="fa fa-eye"></i> Lihat</a>    
+                                `+content+`
                             </td>
                         </tr>
                     `;

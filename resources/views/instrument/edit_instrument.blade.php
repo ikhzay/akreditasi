@@ -93,7 +93,7 @@
                                                 {{-- <td>{{ $doc->keterangan }}</td> --}}
                                                 <td class="text-center">{{ $doc->keterangan }}</td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('{{ $doc->nama }}')">
+                                                    <a class="btn btn-sm btn-info ml-2 text-white" @if ($doc->nama == null) hidden @endif onclick="openFile('{{ $doc->nama }}')">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
                                                     <a class="btn btn-sm btn-warning ml-2 text-white" onclick="edit({{ $doc->id }})">
@@ -273,7 +273,7 @@
                                                     <td class="text-center">` + dataDokumen[i].data.keterangan +
                                 `</td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')">
+                                                        <a class="btn btn-sm btn-info ml-2 text-white" @if ($doc->nama == null) hidden @endif onclick="openFile('` + dataDokumen[i].data.nama + `')">
                                                             <i class="fa fa-eye"></i></a>
                                                         <a class="btn btn-sm btn-warning ml-2 text-white" onclick="edit(`+ dataDokumen[i].data.id +`)">
                                                             <i class="fa fa-edit"></i>
@@ -340,7 +340,7 @@
                                     <td class="text-center">` + dataDokumen[i].data.keterangan +
                                 `</td>
                                                     <td class="text-center">
-                                                        <a class="btn btn-sm btn-info ml-2 text-white" onclick="openFile('` + dataDokumen[i].data.nama + `')">
+                                                        <a class="btn btn-sm btn-info ml-2 text-white" @if ($doc->nama == null) hidden @endif onclick="openFile('` + dataDokumen[i].data.nama + `')">
                                                             <i class="fa fa-eye"></i></a>
                                                         <a class="btn btn-sm btn-warning ml-2 text-white" onclick="edit(`+ dataDokumen[i].data.id +`)">
                                                             <i class="fa fa-edit"></i>
